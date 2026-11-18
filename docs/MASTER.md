@@ -42,6 +42,9 @@ Short-form feeds train people to skim and switch. There is no quick, fun, phone-
 | D12 | Feel reference: Human Benchmark (humanbenchmark.com): clean, one task per screen, instant result. We borrow the feel, not the look. |
 | D13 | Analytics: Vercel Analytics (free tier) only. No other tracking. |
 | D14 | Friend credited in README and on the site ("Concept by ..."). |
+| D15 | Pi Challenge is a single 30 s run: no lives, no multiplier, no time bonus. Score = correct digits. |
+| D16 | Visual Memory is strict: one wrong tap fails the round and costs a life. |
+| D17 | Domain: free `*.vercel.app` subdomain for v1. |
 
 ## 5. Features
 
@@ -87,7 +90,7 @@ Numbers marked (proposed) are starting values to tune in playtesting. They are n
 
 ### Visual Memory
 - Grid starts 3x3. Some tiles light up for 1-2 s, then hide. The player taps the same tiles.
-- One wrong tap fails the round and costs a life (proposed; Human Benchmark allows a few misses).
+- One wrong tap fails the round and costs a life (D16).
 - The recall phase has a timer (proposed 10 s). A timeout costs a life.
 - Difficulty: more lit tiles each level, the grid grows (4x4, then 5x5), the display time shrinks (proposed: 1.5 s down to 0.8 s).
 
@@ -103,7 +106,7 @@ Numbers marked (proposed) are starting values to tune in playtesting. They are n
 - "3." is pre-filled. The player types digits, and each is checked live against pi.
 - The run ends at the first wrong digit or when 30 s run out.
 - Score = number of correct digits after the decimal point.
-- Lives, streak multiplier and time bonus **do not apply** to this mode (a single run). The Rot Meter fills on the mistake for the game over animation. See open question Q3.
+- Lives, streak multiplier and time bonus **do not apply** to this mode (a single run). The Rot Meter fills on the mistake for the game over animation. See D15.
 - A stored reference of at least 1,000 digits is enough (the record holders type far more, but not in 30 s).
 
 ## 7. Constraints
@@ -130,10 +133,7 @@ Numbers marked (proposed) are starting values to tune in playtesting. They are n
 |---|---|---|
 | Q1 | Friend's name (for credits) and GitHub handle (for collaborator access)? | Najeeb |
 | Q2 | Deadline, if any? | Najeeb |
-| Q3 | Pi Challenge: confirm no lives or multiplier (a single 30 s run, score = digits)? | Najeeb / friend |
-| Q4 | Visual Memory: one wrong tap fails the round (strict), or allow a few misses per round? | Najeeb / friend |
-| Q5 | Domain: free `*.vercel.app` subdomain, or buy one later? | Najeeb |
-| Q6 | Canva: is the Canva connector connected in Claude? It's not available in this session yet. | Najeeb |
+| Q3 | Canva: is the Canva connector connected in Claude? It's not available in this session yet. | Najeeb |
 
 ## 10. Documents to derive from this
 

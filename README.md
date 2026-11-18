@@ -14,8 +14,15 @@ Concept by a friend (credit to be added). Built by Najeeb Abdi.
 - Pi Challenge
 
 ## Docs
-- [Master document](docs/MASTER.md)
+- [Master document](docs/MASTER.md) (start here, source of truth)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Build phases](docs/PHASES.md)
+- [Game rules](docs/GAME_RULES.md)
+- [Design](docs/DESIGN.md)
+- [Layout](docs/LAYOUT.md)
+- [Canva brief](docs/CANVA_BRIEF.md)
 - [Original concept (PDF)](docs/concept/do-not-let-it-rot-concept.pdf)
+- [Contributor and agent notes](CLAUDE.md)
 
 ## License
 MIT

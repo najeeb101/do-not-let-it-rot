@@ -1,9 +1,9 @@
 # Game Rules
 
-Exact, testable rules for the three v1 modes. Derived from `MASTER.md` section 6 and decisions D3, D4, D15, D16. If this file and MASTER disagree, MASTER wins until updated.
+Exact, testable rules for the three v1 modes. Derived from `MASTER.md` section 6 and decisions D3, D4, D15, D16 and D18 to D27. If this file and MASTER disagree, MASTER wins until updated.
 
 Conventions:
-- Any number not stated in MASTER or the concept is marked **(proposed)**.
+- Any number not stated in MASTER or the concept is marked **(proposed)**. Approved decisions are cited as D-numbers.
 - Every tunable lives in `src/config/gameRules.ts` under the camelCase name in section 8. No magic numbers elsewhere.
 - All times are milliseconds internally (`...Ms`). UI may show seconds.
 - Game logic is pure functions (state in, state out) with an injected clock and an injected seeded RNG, so every rule below is unit testable.
@@ -11,7 +11,7 @@ Conventions:
 
 ## 1. Shared mechanics (Visual Memory and Speed Math)
 
-Pi Challenge uses none of this section (D15). See section 4.
+Pi Challenge uses none of this section except the countdown in 1.7 (D15, D18). See section 4.
 
 ### 1.1 Lives and Rot Meter
 
@@ -25,17 +25,17 @@ Pi Challenge uses none of this section (D15). See section 4.
 - Start with `startingLives` = 3. Rot stage = `startingLives - lives`.
 - A miss (wrong answer, wrong tap, or timeout) costs exactly 1 life. Never more than 1 per attempt.
 - When lives reach 0 the attempt's feedback plays, then the game over screen opens. There is no other way for these modes to end.
-- Lives are never regained in v1 (proposed).
+- Lives are never regained and the Rot Meter only rots, never heals, in v1 (D20).
 
 ### 1.2 Streak and multiplier
 
 - `streak` = consecutive correct attempts in the current game.
 - Multiplier applied to an attempt uses the streak **before** that attempt:
   `multiplier = min(multiplierCap, 1 + floor(streakBefore / correctPerMultiplierStep))`
-  with `multiplierCap` = 5 and `correctPerMultiplierStep` = 5 (proposed, from MASTER).
+  with `multiplierCap` = 5 and `correctPerMultiplierStep` = 5 (from MASTER). A new step applies from the attempt after the one that reached it (D25).
 - On a correct attempt: score it using that multiplier, then `streak += 1`, `bestStreakThisGame = max(bestStreakThisGame, streak)`.
 - So attempts 1 to 5 score at x1, attempts 6 to 10 at x2, and x5 starts at the 21st consecutive correct attempt.
-- This is consistent with MASTER ("x1 at start, +1 every 5 correct in a row, capped at x5"). No contradiction found.
+- This matches MASTER ("x1 at start, +1 every 5 correct in a row, capped at x5").
 
 | streakBefore | multiplier |
 |---|---|
@@ -68,7 +68,7 @@ timeBonus    = Math.round(timeBonusMax * fractionLeft)
 
 - `remainingMs` = `timerMs` minus elapsed ms when the attempt was resolved, floored at 0, integer.
 - `Math.round` rounds .5 up (JS behavior for positives). Result is a non-negative integer.
-- Time bonus is **not** multiplied by the streak multiplier (reading of "Points x streak multiplier + time bonus").
+- Time bonus is **not** multiplied by the streak multiplier (D25).
 - Time bonus is awarded only on a correct attempt. A miss scores 0.
 
 ### 1.5 Score formula
@@ -104,15 +104,16 @@ Stored locally (D5). Schema is owned by ARCHITECTURE.md; the rules are:
 | newPersonalBest | transient flag | true when `finalScore > bestScore` before saving and `finalScore > 0`. First game with a score above 0 is a new best. |
 
 - A score of 0 is never saved as a best and never flags a new personal best.
-- Quitting to the menu mid-game from the pause or back control counts as game over: score is saved, gamesPlayed +1 (proposed).
+- Quitting to the menu mid-game from the pause or back control counts as game over: score is saved, gamesPlayed +1 (D26).
 - Reload or tab close mid-game saves nothing; there is no resume of a run (proposed).
 - Reset local data (settings) zeroes all stats.
 - If storage is unavailable, the game still plays; saving fails silently and the game over screen omits the "saved" state.
 
-### 1.7 Shared timing constants (proposed)
+### 1.7 Shared timing constants
 
 | Phase | Duration |
 |---|---|
+| Countdown (3-2-1) | `countdownMs` 1500 total (500 per numeral), once before each game in every mode, never between rounds (D18). Input ignored. |
 | Level intro (Visual Memory "Level N") | `roundIntroMs` 600 |
 | Correct feedback | `correctFeedbackMs` 400 |
 | Wrong or timeout feedback | `wrongFeedbackMs` 1100 (Visual Memory also reveals the answer, see 2.5) |
@@ -122,12 +123,25 @@ Feedback time does not count against any timer. Input is ignored during feedback
 
 ### 1.8 Seeded RNG
 
-`createRng(seed: number)` returns a deterministic generator `() => number` in [0, 1) (mulberry32 recommended). Each game gets a fresh seed (`crypto.getRandomValues`, fallback `Date.now()`). Tests pass fixed seeds. The seed is stored on the game state so a Daily Challenge (phase 3) can reuse it.
+`createRng(seed: number)` returns a deterministic generator `() => number` in [0, 1) (mulberry32 recommended). Each game gets a fresh seed (`crypto.getRandomValues`, fallback `Date.now()`). Tests pass fixed seeds. The seed is stored on the game state so a Daily Challenge (Later B) can reuse it.
+
+### 1.9 Game over line (D27)
+
+The game over line is chosen by score tier, not by rot stage. Lines are in DESIGN section 10. Thresholds are `gameOverTiers` (proposed, tune in playtest):
+
+| Mode | low (score below) | mid (score below) | high (score at or above the mid bound) |
+|---|---|---|---|
+| Speed Math | 200 | 800 | 800 |
+| Visual Memory | 150 | 600 | 600 |
+| Pi Challenge (digits) | 10 | 25 | 25 |
+
+If `newPersonalBest` is true, the "new best" line is used instead of the tier line. A score of 0 is always low.
 
 ## 2. Visual Memory
 
 ### 2.1 Flow
 
+0. Countdown (`countdownMs`), once before the first level only (D18).
 1. Level intro (`roundIntroMs`).
 2. Show phase: pattern lit for `displayMs`. Input ignored.
 3. Recall phase: grid active, recall timer (`recallTimeoutMs`) starts at the first frame of the recall phase.
@@ -156,7 +170,7 @@ Lit tile cap: `memoryMaxLitTiles` = 12. Level 12 is the "plateau" level: 5x5 and
 
 Notes:
 - Grid sizes 3x3, 4x4, 5x5 match MASTER. Lit-tile counts never exceed 55% of the grid.
-- Display time runs 1500 down to 800, matching the MASTER range (1.5 s down to 0.8 s). MASTER's other line, "1-2 s", is covered by the top of this range.
+- Display time runs 1500 down to 800, matching the MASTER range (1.5 s down to 0.8 s). The concept's "1-2 s" is accepted as a lower floor at high levels (D24).
 - The table is data (`memoryLevels` array). Levels past the array end reuse the last row.
 
 ### 2.3 Points per round
@@ -205,13 +219,14 @@ generatePattern(gridSize, litCount, rng, previousPattern?) -> number[]  // sorte
 
 ### 3.1 Flow
 
+0. Countdown (`countdownMs`), once before the first question only (D18).
 1. Question appears. Question timer starts immediately.
 2. Player types digits on the on-screen pad (or keyboard on desktop) and submits.
 3. Resolve: correct (auto or explicit submit), wrong submit, or timeout. Feedback. Next question or game over.
 
 ### 3.2 Difficulty tiers
 
-**Choice: tier is chosen by `totalCorrect` (number of correct answers so far in this game).** Not by streak, not by question number.
+**Choice (D23): tier is chosen by `totalCorrect` (number of correct answers so far in this game).** Not by streak, not by question number.
 
 Why:
 - Streak resets on every miss, so a streak-based tier would drop difficulty and make the game see-saw.
@@ -235,7 +250,7 @@ Tier table (proposed):
 ### 3.3 Answers
 
 - **Integers only.** Division only when exact (no remainder). The generator builds division from `divisor * quotient`, never by filtering random pairs.
-- **No negative results, ever** (decision, proposed). Subtraction always has a >= b (a = b gives 0, allowed). Reason: no minus key on the number pad, fewer edge cases, early tiers stay friendly.
+- **No negative results, ever** (D23). Subtraction always has a >= b (a = b gives 0, allowed). Reason: there is no minus key on the number pad (D23), fewer edge cases, early tiers stay friendly.
 - Maximum answer is 891 (99 x 9), so `mathMaxAnswerDigits` = 3.
 - Question display format: `a + b`, `a - b`, `a x b`, `a / b` (UI may render the multiply and divide glyphs; the data uses `+ - * /`).
 
@@ -271,7 +286,7 @@ Use the table in 3.2 with the formulas in 1.2 to 1.5. `timerMs` is the tier's ti
 
 - Single run, `piRunMs` = 30000 (30 s).
 - The input shows "3." pre-filled. It is not typed and not scored.
-- **Timer start (proposed): the 30 s clock starts at the first digit the player enters**, so the player can get ready. The HUD shows 30.0 until then.
+- The 3-2-1 countdown is shown before the run (D18). **The 30 s clock starts at the first digit the player enters** (D19). The HUD shows only the timer (30.0 until then) and the digit count, no Rot Meter, no streak, no multiplier (D21).
 - The player enters digits 0-9. Each digit is checked immediately against the reference.
   - Typed digit at position `i` (0-based after the decimal) is correct iff it equals `piDigits[i]`.
   - Correct: `score += 1`, the digit stays in the display.
@@ -285,9 +300,9 @@ Use the table in 3.2 with the formulas in 1.2 to 1.5. `timerMs` is the tier's ti
 
 | Ending | Rot Meter | Shown |
 |---|---|---|
-| Wrong digit | Fills to stage 3 for the game over animation only (MASTER) | "3." + correct digits, the wrong digit marked (not color alone), the digit that was expected, and the next 10 reference digits |
-| Time up | No rot animation | "3." + all typed digits and the score |
-| Reached end of reference | No rot animation | Full string and the score |
+| Wrong digit | None (D21) | "3." + correct digits, the wrong digit marked (not color alone), the digit that was expected, and the next 10 reference digits |
+| Time up | None | "3." + all typed digits and the score |
+| Reached end of reference | None | Full string and the score |
 
 - Always show: score (digits), personal best comparison, "new personal best" if applicable, Retry, Menu.
 
@@ -336,7 +351,7 @@ Grouped by ten for checking:
 
 ## 6. Rot Meter mapping (shared with DESIGN.md)
 
-Four visual stages (0 to 3) as in 1.1. Pi uses stage 0 during the run and jumps to stage 3 only for a wrong-digit ending.
+Four visual stages (0 to 3) as in 1.1. It only rots, never heals (D20). Pi Challenge has no Rot Meter at all (D21).
 
 ## 7. Test cases
 
@@ -478,6 +493,8 @@ bestStreak: stored 7, game streak 5 gives 7; game streak 9 gives 9. Pi games upd
 | Name | Value | Source |
 |---|---|---|
 | `startingLives` | 3 | MASTER |
+| `countdownMs` | 1500 | D18 |
+| `gameOverTiers` | table in 1.9 | (proposed thresholds) |
 | `multiplierCap` | 5 | MASTER (proposed there) |
 | `correctPerMultiplierStep` | 5 | MASTER (proposed there) |
 | `baseMultiplier` | 1 | MASTER |
@@ -486,13 +503,13 @@ bestStreak: stored 7, game streak 5 gives 7; game streak 9 gives 9. Pi games upd
 | `wrongFeedbackMs` | 1100 | (proposed) |
 | `gameOverDelayMs` | 800 | (proposed) |
 | `memoryMaxLitTiles` | 12 | (proposed) |
-| `memoryDisplayFloorMs` | 800 | MASTER range (proposed) |
+| `memoryDisplayFloorMs` | 800 | D24 |
 | `memoryPointsPerTile` | 10 | (proposed) |
 | `memoryTimeBonusPerTile` | 5 | (proposed) |
 | `memoryLevels` | table in 2.2 (14 rows, last repeats) | (proposed) |
 | `patternRedrawAttempts` | 5 | (proposed) |
 | `mathTiers` | table in 3.2 (5 rows) | (proposed) |
-| `mathTierStarts` | [0, 5, 12, 20, 30] | (proposed) |
+| `mathTierStarts` | [0, 5, 12, 20, 30] | D23 thresholds |
 | `mathTimerMsByTier` | [5000, 4500, 4000, 3500, 3000] | MASTER range (proposed) |
 | `mathBasePointsByTier` | [10, 15, 20, 25, 30] | (proposed) |
 | `mathTimeBonusMaxByTier` | [5, 8, 10, 13, 15] | (proposed) |
@@ -502,28 +519,18 @@ bestStreak: stored 7, game streak 5 gives 7; game streak 9 gives 9. Pi games upd
 | `piRunMs` | 30000 | MASTER |
 | `piMinDigits` | 1000 | MASTER |
 | `piShownNextDigits` | 10 | (proposed) |
-| `piTimerStartsOnFirstDigit` | true | (proposed) |
-| `pauseOnHidden` | true | (proposed) |
-| `quitCountsAsGameOver` | true | (proposed) |
+| `piTimerStartsOnFirstDigit` | true | D19 |
+| `pauseOnHidden` | true | D26 |
+| `quitCountsAsGameOver` | true | D26 |
 
 Tier operand ranges (3.2) are also constants: `mathRanges` with keys per tier (add and subtract 1..9 or 10..99, multiply 2..9 or 11..99 by 2..9, divide divisor 2..9 quotient 2..9 or 2..30).
 
-## 9. Contradictions and gaps in MASTER.md
+## 9. Open items
 
-1. "Best streak" (section 5, item 7) is not scoped: per mode or global. This doc uses per mode (memory, math). Pi has no streak.
-2. "Points x streak multiplier + time bonus" does not say whether the time bonus is multiplied. This doc: not multiplied.
-3. Multiplier "x2, x3, ..." in the shared table vs "x1 at start, +1 every 5" in the bullet below it: consistent, but it does not say whether the multiplier applies to the attempt that reaches the threshold. This doc: applies from the next attempt.
-4. "Lives: 3" and "full rot = game over" give 4 rot stages (healthy plus 3). DESIGN.md must draw 4 stages, not 3.
-5. Pi Challenge: when the 30 s clock starts is not defined (this doc: first digit). Backspace is not defined (this doc: none). The rot meter on timeout (no mistake) is not defined (this doc: no rot).
-6. Pi rot behavior: D3 says full rot = game over for all modes; D15 says no lives for Pi. Not a contradiction, but the "fills on the mistake" animation is only for wrong digits.
-7. Visual Memory: "1-2 s" display and "1.5 s down to 0.8 s" overlap but do not agree (0.8 is below 1). This doc uses 1500 down to 800.
-8. Visual Memory: what happens after a failed round (level repeat?), the grid size switch levels, and the lit tile counts are unspecified. All proposed here.
-9. Speed Math: "adaptive" has no trigger. This doc chooses totalCorrect. Negative subtraction results and the number pad having no minus key are unspecified (this doc: never negative).
-10. Speed Math: "3-5 s per question" vs "starts at 5 s, shrinks to 3 s": consistent, but the shrink schedule is not given (this doc: 5 tiers).
-11. Quitting mid-game: whether the score is saved is unspecified (this doc: saved as a finished game).
-12. Pause and background behavior is not in MASTER at all (this doc: pause, resume by tap).
-13. Success criterion "one game round starts within 2 taps": Pi first-digit timer start does not conflict, but a "Go" or countdown screen would add a tap. This doc has no countdown.
-14. Total games played: "total" only in MASTER; this doc also stores per mode so the home cards can show per-mode counts.
-15. No pi digit source is named. Build-time verification against a reputable source is required (section 4.3).
-16. No offline or storage-failure behavior for saves is specified (this doc: play continues, save fails silently).
-17. The original concept PDF was not re-read for this doc; all concept-derived items come via MASTER.
+Everything else that used to be listed here is settled by MASTER D15 to D27.
+
+1. Visual Memory level table (grid switch levels, lit counts, repeat on fail) and the Speed Math tier shrink schedule are proposed starting values. Tune in playtest (PHASES phase 6).
+2. Pi digit source is not named. Build-time verification against a reputable source is required (section 4.3).
+3. The original concept PDF was not re-read for this doc; concept-derived items come via MASTER. Colors are tracked in MASTER D29.
+4. Game over tier thresholds (1.9) are proposed.
+5. Friend name and handle (MASTER Q1) and deadline (Q2) do not affect the rules.

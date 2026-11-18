@@ -14,7 +14,7 @@ Versions below were read from the npm registry (`npm view <pkg> version`) on 202
 | Vite | 8.3.8 | MASTER D8. Fast dev server, static build for Vercel. |
 | React | 19.3.1 | MASTER D8. |
 | @vitejs/plugin-react | 6.3.0 | Requires Vite 8. |
-| TypeScript | 6.0.3 (proposed pin; latest is 7.0.2) | typescript-eslint 8.73.0 only supports TypeScript `<6.1.0`. 7.x would break lint. Move to 7 when typescript-eslint supports it. |
+| TypeScript | 6.0.3 (pinned, D28; latest is 7.0.2) | typescript-eslint 8.73.0 only supports TypeScript `<6.1.0`. 7.x would break lint. Pinned until typescript-eslint supports 7. |
 | Tailwind CSS | 4.3.5 with `@tailwindcss/vite` 4.3.5 | MASTER D8. v4 uses CSS-first `@theme`, which maps cleanly to the DESIGN tokens. No `tailwind.config.js`. |
 | vite-plugin-pwa | 2.0.0 (peer: Vite up to 8, `workbox-build` and `workbox-window` ^7.4.1) | Standard PWA plugin for Vite: generates manifest and service worker. Use `generateSW` mode with `registerType: 'autoUpdate'`. Assets generator (`@vite-pwa/assets-generator`) for icons is optional. |
 | Vitest | 5.1.1 | Same config as Vite, fast, pure-function tests. Use the `jsdom` environment only for the few UI tests (proposed). |
@@ -35,7 +35,7 @@ Reasons:
 - Game screens must not be reachable by a stale URL mid-run.
 - Back button: push one `history` entry when entering a game and handle `popstate` to return to the menu (proposed), so the phone back button does not leave the site.
 
-When to reconsider: Phase 2 stats screen with shareable URLs, or Phase 3 daily challenge links. At that point add React Router (8.5.2 on 2026-11-19) in library mode. The `screen` type is kept as a closed union so this swap is mechanical.
+When to reconsider: the Later A stats screen with shareable URLs, or Later B daily challenge links. At that point add React Router (8.5.2 on 2026-11-19) in library mode. The `screen` type is kept as a closed union so this swap is mechanical.
 
 ## 2. Setup and scripts
 
@@ -55,7 +55,7 @@ npm install && npm run dev
 | `test` | Vitest run |
 | `test:e2e` | Playwright (starts `preview` itself) |
 
-Env vars: none in v1. No `.env` needed, no secrets. Phase 3 will add Supabase URL and anon key as `VITE_*` vars (public by design, still set in Vercel, never committed with a service key).
+Env vars: none in v1. No `.env` needed, no secrets. Later B will add Supabase URL and anon key as `VITE_*` vars (public by design, still set in Vercel, never committed with a service key).
 
 ## 3. Folder structure
 
@@ -121,14 +121,14 @@ idle -> countdown -> show -> input -> feedback -> next -> (show | gameover)
 | Phase | Meaning | Modes |
 |---|---|---|
 | idle | Ready screen, waiting for Start | all |
-| countdown | 3-2-1 before first question | all (Pi: before 30 s starts, proposed) |
+| countdown | One 3-2-1 (1.5 s total) before each game, not between rounds (D18) | all, Pi included |
 | show | Question or pattern displayed | Speed Math: question visible (input open too, see below). Visual Memory: tiles lit. Pi: skipped |
-| input | Player answers, timer running | all |
+| input | Player answers, timer running. Pi: waits for the first digit, and the 30 s clock starts on it (D19) | all |
 | feedback | Right/wrong flash, short fixed delay | Speed Math, Visual Memory. Pi gives per-digit feedback inline, no pause |
 | next | Apply score, streak, lives, difficulty; pick next question | all |
 | gameover | Run ended; final score, save result | all |
 
-Speed Math has no separate memorize step, so `show` and `input` collapse into one tick (proposed: the reducer still passes through `show` so the machine is uniform). Pi Challenge uses `idle -> countdown -> input -> gameover` only (D15).
+Speed Math has no separate memorize step, so `show` and `input` collapse into one tick (proposed: the reducer still passes through `show` so the machine is uniform). Pi Challenge uses `idle -> countdown -> input -> gameover` only (D15, D19).
 
 ### 4.2 Typed shape (proposed)
 
@@ -142,7 +142,7 @@ type RunState<Q, A> = {
   score: number;
   streak: number;
   multiplier: number;
-  lives: number;            // 3..0, drives Rot Meter stage
+  lives: number;            // 3..0, drives Rot Meter stage; only decreases (D20); unused by Pi (D21)
   phaseEndsAt: number | null; // clock ms deadline
   seed: number;
   rngState: number;         // so the run is replayable
@@ -156,7 +156,7 @@ type Action =
   | { type: 'restart'; now: number };
 ```
 
-Shared helpers in `engine/` (scoring, streak, rot) are called by each mode's reducer so rules are not duplicated. Pi does not call streak, multiplier or time bonus (D15).
+Shared helpers in `engine/` (scoring, streak, rot) are called by each mode's reducer so rules are not duplicated. Pi does not call streak, multiplier, time bonus or rot (D15, D21). The time bonus is added after the multiplier, never multiplied, and a multiplier step applies from the attempt after reaching it (D25).
 
 ### 4.3 Time
 
@@ -164,7 +164,7 @@ The reducer never reads the real clock. It receives `now` in actions and stores 
 
 - `engine/clock.ts` defines `interface Clock { now(): number }`.
 - `realClock` uses `performance.now()`. `fakeClock` lets tests advance time manually.
-- A `useGameLoop` hook runs `requestAnimationFrame` and dispatches `tick` with `clock.now()`. It pauses when the tab is hidden (`visibilitychange`) and the run is paused or resumed with the deadline shifted (proposed), so switching tabs is not punished and not exploitable.
+- A `useGameLoop` hook runs `requestAnimationFrame` and dispatches `tick` with `clock.now()`. It pauses when the tab is hidden or the app is backgrounded (`visibilitychange`, `pagehide`, D26); the run resumes by tap on Resume with deadlines shifted by the paused time, so switching tabs is not punished and not exploitable. Quitting mid-game saves the score as a finished game (D26).
 - Timeouts are a `tick` whose `now >= phaseEndsAt`. Tests dispatch ticks directly with chosen times, with no timers and no sleeping.
 
 ## 5. Config, difficulty, RNG
@@ -175,25 +175,25 @@ One exported, typed, readonly object. Everything tunable is here and nowhere els
 
 ### 5.2 Seeded RNG
 
-`engine/rng.ts`: a small seedable PRNG (proposed: mulberry32; 32-bit state, fine for a game). API: `createRng(seed)`, `next()`, `int(min, max)`, `pick(array)`, `shuffle(array)`. All generators take an `Rng` argument. No `Math.random` in `engine/` or `modes/`. Normal runs seed from `crypto.getRandomValues` once at start (the seed is stored in state). Phase 3 Daily Challenge passes a date-derived seed (for example a hash of `YYYY-MM-DD` in UTC) and gets identical questions for everyone.
+`engine/rng.ts`: a small seedable PRNG (proposed: mulberry32; 32-bit state, fine for a game). API: `createRng(seed)`, `next()`, `int(min, max)`, `pick(array)`, `shuffle(array)`. All generators take an `Rng` argument. No `Math.random` in `engine/` or `modes/`. Normal runs seed from `crypto.getRandomValues` once at start (the seed is stored in state). Later B Daily Challenge passes a date-derived seed (for example a hash of `YYYY-MM-DD` in UTC) and gets identical questions for everyone.
 
 ### 5.3 Pi digits
 
-`content/piDigits.ts` exports one static string of the digits after "3." (at least 1,000, MASTER section 6). The checker is `isCorrectDigit(index, char)` plus `expectedDigit(index)`. A unit test asserts the string length is at least 1000, contains only 0-9, and its first 30 digits equal the known prefix. Source the digits from a trusted reference and record the source in a comment (do not type them by hand). Pi mode scoring is the count of correct digits after the decimal point. When the player passes the last stored digit (unrealistic in 30 s), the run ends as a perfect run (proposed).
+`content/piDigits.ts` exports one static string of the digits after "3." (at least 1,000, MASTER section 6). The checker is `isCorrectDigit(index, char)` plus `expectedDigit(index)`. A unit test asserts the string length is at least 1000, contains only 0-9, and its first 30 digits equal the known prefix. Source the digits from a trusted reference and record the source in a comment (do not type them by hand). Pi mode scoring is the count of correct digits after the decimal point. The 30 s deadline is set when the first digit action arrives (D19). When the player passes the last stored digit (unrealistic in 30 s), the run ends as a perfect run (proposed).
 
 ## 6. Storage
 
 `src/lib/storage.ts`, localStorage only, no server (D5).
 
 - One key: `dnlir:v1` (proposed) holding one JSON object.
-- Schema (proposed):
+- Schema (proposed shape, decisions D22):
 
 ```ts
 type SaveV1 = {
   version: 1;
   bests: { speedMath: number; visualMemory: number; piChallenge: number };
-  bestStreak: number;
-  gamesPlayed: number;
+  bestStreak: { speedMath: number; visualMemory: number };      // none for Pi (D22)
+  gamesPlayed: { speedMath: number; visualMemory: number; piChallenge: number }; // per mode (D22)
   settings: { sound: boolean; vibration: boolean; theme: 'system' | 'light' | 'dark' };
 };
 ```
@@ -201,8 +201,8 @@ type SaveV1 = {
 - `load()`: `try { parse } catch { return defaults }`. Validates shape, fills missing fields with defaults, runs migrations in order (`migrations[n]` upgrades n to n+1) until `version` is current. Unknown newer version: do not overwrite, use defaults in memory (proposed).
 - `save()`: `try { setItem } catch {}` (private mode, quota, disabled storage). The game must run fully with storage unavailable (values live in memory for the session).
 - `reset()`: clears the key (Settings "reset local data").
-- Pure functions (`migrate`, `validate`) are unit-tested with old, corrupt and empty payloads. Phase 2 stats history will be a `v2` migration.
-- Per-mode best streak: MASTER lists "best streak" once. See gaps.
+- Pure functions (`migrate`, `validate`) are unit-tested with old, corrupt and empty payloads. The Later A stats history will be a `v2` migration.
+- Best streak and games played are per mode, Pi has no streak (D22). Reset clears all of it.
 
 ## 7. Theming
 
@@ -221,12 +221,12 @@ Audio (`lib/audio.ts`):
 
 Haptics (`lib/haptics.ts`):
 - `navigator.vibrate` guarded: `if ('vibrate' in navigator && settings.vibration)`. iOS Safari does not support it, so it silently does nothing there. The toggle can be hidden where unsupported (proposed).
-- Short patterns: wrong answer, game over. Keep vibration off by default under reduced motion? Not decided, see gaps.
+- Short patterns: wrong answer, game over. Vibration follows only its own setting; reduced motion does not change it (proposed).
 
 ## 9. Accessibility
 
 - Reduced motion: CSS `@media (prefers-reduced-motion: reduce)` plus a `useReducedMotion` hook. Replace flashes, shakes and the Rot Meter decay animation with instant state changes. The Visual Memory tile display still works (shape or brightness changes, not motion).
-- Keyboard play on desktop: Speed Math accepts digits, Backspace, Enter, minus sign. Pi accepts digits. Visual Memory tiles are focusable buttons with arrow-key movement and Space/Enter to select (proposed). Escape returns to the menu with a confirm.
+- Keyboard play on desktop: Speed Math accepts digits, Backspace, Enter (no minus, answers are never negative, D23). Pi accepts digits only (no Backspace). Visual Memory tiles are focusable buttons with arrow-key movement and Space/Enter to select (proposed). Escape returns to the menu with a confirm.
 - Focus: move focus to the primary control on each screen change; visible focus ring from DESIGN tokens; focus is never trapped except in modals.
 - Tap targets at least 44 px. Color is never the only signal (lit tiles change shape or brightness; correct/wrong also use icon or text).
 - Live regions: `aria-live="polite"` for score and feedback text, `role="img"` with label on the Rot Meter (for example "2 of 3 lives").
@@ -238,12 +238,12 @@ Haptics (`lib/haptics.ts`):
 - Manifest (from DESIGN): name "Do Not Let It Rot", `display: standalone`, `orientation: portrait` (proposed), theme and background colors from tokens, 192 and 512 icons plus maskable.
 - Fonts self-hosted (proposed) so offline works and no third-party request is made.
 - Update flow: new version activates on next launch; no blocking prompt (proposed).
-- Install: rely on the browser install prompt; add an optional in-app "Install" hint on Home (Phase 5, proposed). iOS: Share, Add to Home Screen (shown as a text hint).
+- Install: rely on the browser install prompt; add an optional in-app "Install" hint on Home (build Phase 5, proposed). iOS: Share, Add to Home Screen (shown as a text hint).
 - Check offline with `npm run build && npm run preview`, then DevTools offline. The dev server does not exercise the service worker by default.
 
 ## 11. Analytics
 
-Vercel Analytics only (D13). No other tracking, no cookies added by us, no personal data.
+Vercel Analytics only (D13). No other tracking, no cookies added by us, no personal data. A one-line privacy note is shown on the Credits screen (D30).
 
 - Page-level: `<Analytics />` or `inject()` in `main.tsx`.
 - Custom events (`lib/analytics.ts` wraps `track()` from `@vercel/analytics`; the event names are a closed union, props are small and non-identifying):
@@ -269,11 +269,11 @@ Vitest (unit, pure, no browser needed):
 | scoring | points x multiplier, time bonus bounds, rounding |
 | streak/multiplier | step every N, cap, reset on miss |
 | lives/Rot | lose a life, stage mapping, zero is gameover |
-| reducers (each mode) | every phase transition, timeout via `tick`, wrong answer, gameover, restart, Pi ignores lives and multiplier |
+| reducers (each mode) | every phase transition, countdown, timeout via `tick`, wrong answer, gameover, restart, pause and resume, Pi ignores lives and multiplier and starts its clock on the first digit |
 | generators | Speed Math: answers are integers, division is even, operands within level range, same seed gives same questions. Visual Memory: lit count and grid size per level, no duplicate tiles |
 | difficulty | tables monotonic, level lookup clamps at the max |
 | pi checker | prefix, wrong digit stops, index past end, string length >= 1000 |
-| storage | defaults, corrupt JSON, migration, quota error, unavailable storage |
+| storage | defaults, corrupt JSON, migration, quota error, unavailable storage, per-mode streak and games played |
 | rng | determinism, range |
 
 Playwright e2e, mobile viewport (proposed: Pixel 7 and a 360 x 640 custom viewport; Chromium; WebKit optional):
@@ -299,7 +299,7 @@ GitHub Actions `.github/workflows/ci.yml`, on push and pull request:
 
 Deploy: Vercel, Git integration on `najeeb101/do-not-let-it-rot`. Production from `main`, a preview URL per pull request, free `*.vercel.app` domain (D17). Framework preset Vite, build `npm run build`, output `dist`. No env vars in v1. Branch protection on `main` requiring the CI check (proposed).
 
-## 14. Phase 2 and 3 extension points (not built)
+## 14. Later A and Later B extension points (not built)
 
 | Future feature | Hook already in place |
 |---|---|

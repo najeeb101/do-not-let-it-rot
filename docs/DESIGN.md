@@ -2,7 +2,7 @@
 
 Derived from `docs/MASTER.md` (D3, D6, D10, D11, D12 and section 7). If this file and MASTER.md disagree, MASTER.md wins. Anything not in MASTER.md is marked "(proposed)". Contrast ratios below were computed with the WCAG 2.x relative luminance formula.
 
-Note on the concept PDF: it was read as text only. Its colors could not be extracted from the file (no readable color operators), so MASTER.md's "lime on near-black" is the source and the hex values here (#C6F24E on #0E1116) are the brief's estimate (proposed). Najeeb or the friend should confirm against the PDF visually.
+Note on the concept PDF: it was read as text only. Its colors could not be extracted from the file, so the hex values here (lime #C6F24E on near-black #0E1116) are estimates (MASTER D29). They must be matched exactly to the concept PDF before the UI build.
 
 ## 1. Identity
 
@@ -21,7 +21,7 @@ Signature elements (proposed): the lime brain mascot, a hard 2 px outline on lit
 
 Tokens are semantic. Components never use raw hex. Implement as CSS variables on `:root` and `[data-theme="dark"]`, mapped in Tailwind.
 
-### 2.1 Dark mode (default look, matches concept) (proposed hex)
+### 2.1 Dark mode (default look, matches concept) (hex are estimates, D29)
 
 | Token | Hex | Use |
 |---|---|---|
@@ -47,7 +47,7 @@ Tokens are semantic. Components never use raw hex. Implement as CSS variables on
 | rot-3 (rotten) | #8A6A4A | Brain, game over |
 | overlay | rgba(14,17,22,0.72) | Modal scrim |
 
-### 2.2 Light mode (proposed hex)
+### 2.2 Light mode (proposed hex, derived from the D29 estimates)
 
 | Token | Hex | Use |
 |---|---|---|
@@ -182,10 +182,10 @@ One row, height 72 px, sits at top of every game. Layout left to right:
 |---|---|
 | Score | Label "SCORE" text-xs muted, value text-2xl display tabular |
 | Streak chip | Pill, surface-2, text "x3" (text-lg) plus a small flame-free spark icon. Shows only from x2 up (proposed). Pops on increase. |
-| Rot Meter | 40 x 40 brain icon with 3 life ticks (see section 6) |
+| Rot Meter | 40 x 40 brain icon with 3 life ticks (see section 6). Not shown in Pi Challenge. |
 | Timer bar | Full width bar under the row, height 8, radius pill. Track surface-2, fill accent, drains left to right. Last 30% of time: fill changes to warning, then danger in the last 10% (proposed), plus pulse animation. Remaining seconds shown as text beside the bar so color is not the only signal. |
 
-In Pi Challenge, the streak chip and lives are hidden (D15). The timer bar is the single 30 s clock, and the Rot Meter is shown at fresh stage and only rots on the final mistake.
+In Pi Challenge the HUD shows only the digit count and the timer (D21): no Rot Meter, no streak chip, no multiplier. The timer bar is the single 30 s clock and starts on the first digit typed (D19), so it sits full until then.
 
 ### 5.4 Grid tile (Visual Memory)
 
@@ -204,11 +204,11 @@ Minimum tile size at 5x5 on 360 px: (360 - 32 gutter - 4 x 4 gap) / 5 about 62 p
 
 ### 5.5 Number pad keys (Speed Math)
 
-3 columns by 4 rows: 1 to 9, then backspace, 0, enter. Key height 56 (min 44), gap 8, radius md, surface-2 fill, 2 px border, label text-xl display. Enter key uses accent fill. Pressed: surface darker, scale 0.96, 60 ms. Total pad height about 56 x 4 + 8 x 3 = 248 px. Pad is fixed to the bottom, answer display above it. Desktop: physical number keys, Enter, Backspace also work.
+3 columns by 4 rows: 1 to 9, then backspace, 0, enter. Key height 56 (min 44), gap 8, radius md, surface-2 fill, 2 px border, label text-xl display. Enter key uses accent fill. Pressed: surface darker, scale 0.96, 60 ms. There is no minus key because answers are never negative (D23). Total pad height about 56 x 4 + 8 x 3 = 248 px. Pad is fixed to the bottom, answer display above it. Desktop: physical number keys, Enter, Backspace also work.
 
 ### 5.6 Pi digit display
 
-Top line shows "3." pre-filled, in muted. Typed digits follow in text-3xl display, grouped in blocks of 5, auto-scrolling horizontally within one line (the last 15 digits visible) with the newest at the right. Correct digit: brief accent flash. Wrong digit: that digit turns danger, shakes, run ends, and the correct digit is shown below in text-muted with the label "Should be". Uses a digits-only pad (0 to 9 and backspace, no enter or minus) (proposed).
+Top line shows "3." pre-filled, in muted. Typed digits follow in text-3xl display, grouped in blocks of 5, auto-scrolling horizontally within one line (the last 15 digits visible) with the newest at the right. Correct digit: brief accent flash. Wrong digit: that digit turns danger, shakes, run ends, and the correct digit is shown below in text-muted with the label "Should be". Uses a digits-only pad (0 to 9; no backspace, no enter, no minus), because a digit is never editable (GAME_RULES 4.1).
 
 ### 5.7 Toast and feedback flash
 
@@ -222,7 +222,7 @@ Every flash also carries an icon (check or X) so color is not the only signal.
 
 ### 5.8 Game over card
 
-Centered surface card, radius lg, 2 px border, slides up. Contents top to bottom: Rot Meter at the reached stage (80 px), the rot line of copy (text-xl), final score (text-hero, accent), "NEW BEST" badge when true (accent fill pill), then two rows of small stats (best streak, personal best), then Retry (primary) and Menu (secondary). Retry is auto-focused for keyboard users.
+Centered surface card, radius lg, 2 px border, slides up. Contents top to bottom: Rot Meter at the rotten stage (80 px; lives modes only, Pi has none), the score-tier line of copy (text-xl, see section 10), final score (text-hero, accent), "NEW BEST" badge when true (accent fill pill), then two rows of small stats (best streak, personal best; Pi shows personal best only), then Retry (primary) and Menu (secondary). Retry is auto-focused for keyboard users.
 
 ### 5.9 Settings toggles
 
@@ -234,7 +234,7 @@ Scrim `overlay`, panel surface, radius lg, max width 360, padding 24. Title text
 
 ## 6. Rot Meter
 
-The lives display (D3): a simple brain with 3 states of decay. Pure vector: one brain outline path, a lobe line, a few extra shapes. Each stage reuses the same base, so it is easy to draw in Canva (a brain shape plus small shapes) and to export as SVG.
+The lives display (D3): a simple brain with 4 stages (fresh plus 3 states of decay). It only rots, never heals (D20). Pi Challenge does not show it (D21). Pure vector: one brain outline path, a lobe line, a few extra shapes. Each stage reuses the same base, so it is easy to draw in Canva (a brain shape plus small shapes) and to export as SVG.
 
 Base drawing (proposed): a rounded brain silhouette (two lobes joined) with a center fold line and 2 small squiggle folds per lobe. 2 px outline in `text` color, fill from `rot-N` token. Drawn in a 64 x 64 viewBox.
 
@@ -319,12 +319,11 @@ Playful, short, a little roasting, never mean. No slurs, no body or mental-healt
 | Home tagline | Scroll less. Think more. (from concept) |
 | Home sub | Your brain called. It wants a workout. (from concept) |
 | Start button | Unrot me |
-| Game over, brain fresh (ended at stage 0, rare, e.g. Pi run finished well) | Brain still crispy. Show-off. |
-| Game over, 1 lost | Slight mold. Totally fixable. |
-| Game over, 2 lost | Your brain is getting a bit smelly. |
-| Game over, rotten | Brain officially rotten. Please open a window. |
+| Game over, low score | Brain officially rotten. Please open a window. |
+| Game over, mid score | Your brain is getting a bit smelly. |
+| Game over, high score | Brain still crispy. Show-off. |
+| Game over, new personal best (replaces the tier line) | New personal best. Brain: 1, scroll: 0. |
 | Pi, first wrong digit | Pi is irrational. So is that digit. |
-| New best | New personal best. Brain: 1, scroll: 0. |
 | Streak x2 | Warming up. |
 | Streak x3 | Brain cells are cooking. |
 | Streak x5 (max) | Max focus. Unscrollable. |
@@ -334,7 +333,7 @@ Playful, short, a little roasting, never mean. No slurs, no body or mental-healt
 | Reset data confirm | Delete all scores? Your brain will forget them too. |
 | Sound off toast | Sound off. Silent focus mode. |
 
-Keep a count: a line is at most about 8 words so it fits the game over card on 360 px.
+Game over lines are chosen by score tier (low, mid, high, new best), not by rot stage (D27). Tier thresholds per mode are in GAME_RULES section 1.9. Keep a count: a line is at most about 8 words so it fits the game over card on 360 px.
 
 ## 11. Accessibility
 
@@ -347,23 +346,17 @@ Keep a count: a line is at most about 8 words so it fits the game over card on 3
 | Keyboard | Digits, Enter, Backspace, Space or Enter to activate buttons; arrow keys to move between tiles with Space or Enter to select (proposed). |
 | Reduced motion | Section 7; also respected for flash intensity (no flashing faster than 3 per second, to avoid photosensitivity risk). |
 | Screen readers | Live region announces score, lives and result ("Correct. Streak 3."). Tile grid uses buttons with labels ("Row 2, column 3"). Game status changes use `aria-live="polite"`. |
-| Time pressure | The game is timed by design; note in settings or help that there is no pause during a round (open question below). |
+| Time pressure | The game is timed by design; the round pauses automatically when the tab is hidden and has a manual pause button (D26, LAYOUT section 8). |
 | Zoom and text size | Layout works at 200% browser zoom with no horizontal scroll; use rem. |
 | Sound and haptics | Never the only feedback; every sound and haptic has a visual twin. |
 
-## 12. Contradictions and gaps in MASTER.md
+## 12. Open items
 
-1. Rot Meter definitions conflict. The concept PDF says Rot Meter is a bar that fills on failure and drains on success. MASTER D3 changes it to a 3-life brain that only decays. This DESIGN follows MASTER (no healing). Confirm no "drain on success" is wanted.
-2. Pi Challenge and the Rot Meter: MASTER section 6 says the Rot Meter fills on the mistake for the game over animation, but D15 says no lives. It is unclear whether the Rot Meter is shown during the Pi run (this doc hides lives, shows fresh brain) and which stage plays at game over (this doc: jumps to rotten on a wrong digit, and for a timeout, stays at a stage based on score? undefined). Need a rule for a clean 30 s run with no mistake.
-3. Game over "rot level" copy: a Pi run or a mode where the player ends at a non-rotten stage never happens for lives modes (lives run out means rotten). So the per-stage game over lines (fresh, 1 lost, 2 lost) only apply if there is a quit or the run ends by other means. Decide whether per-stage copy is based on score tiers instead (proposed).
-4. Speed Math and Pi use the same number pad, but section 6 does not say Pi needs only digits (no minus or decimal). Negative answers are not ruled out for subtraction (7 - 12). Decide whether results are always non-negative, to know if a minus key is needed.
-5. Visual Memory has no per-tile timing for the "show" phase beyond 0.8 to 1.5 s (proposed) while the concept says 1-2 s. MASTER proposes a lower range than the concept; confirm which.
-6. Time bonus and scoring formula undefined (left to GAME_RULES.md), which affects the HUD (does it show the bonus?).
-7. MASTER section 5 lists Phase 2 Sequence Memory, which uses colors or shapes: the palette has no multi-color set for it yet. Need a categorical palette later (colorblind safe).
-8. No pause rule: a timed round on a phone can be interrupted (calls, tab switch). Undefined whether the game pauses, fails or continues when the tab is hidden.
-9. D7 says offline PWA, D13 says Vercel Analytics only: analytics requires a network call and a script from Vercel; behavior offline and consent or privacy note (school-age players) is unspecified.
-10. D9 plans Arabic later: fonts chosen here lack Arabic, and the HUD and layout assume left to right. RTL is deferred, but icons and the timer bar direction should avoid hard-coded left/right (use logical properties) (proposed).
-11. Light mode accent and the "lit tiles also change shape or brightness" rule: fine, but "shape" is not defined (this doc proposes an inner dot and check).
-12. Concept PDF colors: the exact lime and near-black values are not recorded in MASTER.md (only "lime on near-black"), so hex values here are estimates.
-13. Q3 (Canva connector not connected) blocks D11: the design cannot be produced in Canva yet. This doc is written so tokens and the Rot Meter can be recreated in Canva by hand if needed.
-14. Screen reader and keyboard play are only partly specified in section 7 (keyboard play on desktop, not screen readers). This doc adds both (proposed).
+Everything else that used to be listed here is settled by MASTER D18 to D30.
+
+1. Exact lime and near-black hex must be matched to the concept PDF before the UI build (D29).
+2. Concept friend's name for the credits line (MASTER Q1).
+3. Canva designs are made via the browser (MASTER Q3); tokens and the Rot Meter can be recreated by hand.
+4. Later A: Sequence Memory needs a categorical, colorblind-safe palette. Not needed for v1.
+5. Later B: Arabic (RTL). Fonts here lack Arabic glyphs and icons/timer direction should use logical properties (proposed).
+6. Analytics calls made while offline are dropped silently (proposed, no consent banner needed under D30).

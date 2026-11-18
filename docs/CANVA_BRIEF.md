@@ -5,7 +5,7 @@ What to design in Canva so frames map 1:1 to `docs/LAYOUT.md`. Colors, type and 
 ## Setup
 
 - [ ] One Canva design file per size group, or one file with pages named below. Name the file "DNLIR Design".
-- [ ] Create the color and font styles from DESIGN.md first (Brand Kit if available, otherwise a swatch page).
+- [ ] Create the color and font styles from DESIGN.md first (Brand Kit if available, otherwise a swatch page). Match lime and near-black exactly to the concept PDF before building frames (MASTER D29).
 - [ ] Dark is the signature theme (near-black with lime accent). Light is the second theme. Build dark first.
 - [ ] Use a 4 px grid, 16 px side gutters, 44 px minimum tap targets.
 
@@ -15,19 +15,19 @@ Name pattern: `<Screen> / Dark` and `<Screen> / Light`.
 
 - [ ] Home
 - [ ] Mode Intro
-- [ ] Countdown
+- [ ] Countdown (3-2-1, shown before each game)
 - [ ] Visual Memory Show
 - [ ] Visual Memory Recall
 - [ ] Visual Memory Feedback (wrong tile revealed)
 - [ ] Speed Math
-- [ ] Pi Challenge
+- [ ] Pi Challenge (HUD is timer and digit count only, no Rot Meter, D21)
 - [ ] Pi Challenge End (wrong digit with correct digit shown)
 - [ ] Pause
-- [ ] Game Over
+- [ ] Game Over (score-tier line, D27; no Rot Meter on the Pi variant)
 - [ ] Game Over New Best
 - [ ] Settings
 - [ ] Reset Confirm (dialog over Settings)
-- [ ] Credits
+- [ ] Credits (with the one-line privacy note, D30)
 - [ ] Install Prompt (banner on Home)
 
 That is 16 screens x 2 themes = 32 frames. If time is short, the minimum set is Home, Speed Math, Visual Memory Recall, Pi Challenge, Game Over (dark and light), 10 frames.
@@ -53,7 +53,7 @@ Frame name: `Components`. Suggested size 1440 x 1600. Show each in Dark and Ligh
 - [ ] Mode card (3 variants, with personal best line)
 - [ ] HUD row (score, streak with multiplier, pause)
 - [ ] Timer bar: full, mid, warning
-- [ ] Pad key and number pad (4x3 for Speed Math, 3x3 + 0 for Pi)
+- [ ] Pad key and number pad (4x3 for Speed Math, no minus key; 3x3 + 0 for Pi, no backspace)
 - [ ] Memory tile: idle, lit, correct, wrong, revealed
 - [ ] Digit stream (Pi): prefilled "3.", typed, wrong digit
 - [ ] Toggle, segmented control (System / Light / Dark), settings row
@@ -102,7 +102,7 @@ Keep shapes simple (flat fills, no gradients or blurs) so the SVGs stay small an
 - Transparent PNG background may also be paid-only. Use the flat surface color as the background for app icons if so.
 - Brand Kit (saved colors and fonts) may be limited on free. A swatch page works as a substitute.
 - Free elements and fonts only (budget rule in MASTER section 7). Avoid Pro-marked elements.
-- The Canva connector status is unknown (MASTER Q3). If it is not connected, follow this brief by hand.
+- The Canva connector is not available (MASTER Q3). The designs are made in Canva via the browser, following this brief by hand.
 
 ## 10. Hand-off
 

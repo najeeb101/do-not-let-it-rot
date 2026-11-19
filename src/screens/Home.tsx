@@ -26,7 +26,7 @@ export function Home({ save, onPlay, onTheme }: Props) {
           onClick={onTheme}
           aria-label={strings.theme[save.settings.theme]}
           title={strings.theme[save.settings.theme]}
-          className="flex h-11 w-11 items-center justify-center rounded-xl text-muted"
+          className="flex h-11 w-11 items-center justify-center rounded-xl border-2 border-border bg-surface-2 text-text"
         >
           <GearIcon />
         </button>
@@ -59,20 +59,23 @@ export function Home({ save, onPlay, onTheme }: Props) {
               </span>
               <span className="flex min-w-0 flex-1 flex-col">
                 <span className="text-lg font-semibold leading-6">{m.name}</span>
-                <span className="text-sm text-muted">{c.playable ? m.hint : strings.comingSoon}</span>
+                <span className="text-sm text-muted">{m.hint}</span>
               </span>
-              {c.playable && (
+              {c.playable ? (
                 <span className="flex flex-col items-end">
                   <span className="text-xs text-muted">{strings.best}</span>
                   <span className="num text-[32px] leading-9 text-ink">{best > 0 ? best : strings.noScore}</span>
                 </span>
+              ) : (
+                <span className="text-xs text-muted">{strings.comingSoon}</span>
               )}
             </button>
           );
         })}
       </nav>
 
-      <p className="mt-4 text-center text-xs text-muted">{strings.credit}</p>
+      <div className="flex-[0.6]" />
+      <p className="text-center text-xs text-muted">{strings.credit}</p>
     </main>
   );
 }

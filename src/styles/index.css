@@ -114,15 +114,17 @@ body {
   overscroll-behavior: none;
 }
 
-button {
-  font: inherit;
-  color: inherit;
-  cursor: pointer;
-  touch-action: manipulation;
-}
+@layer base {
+  button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
 
-button:disabled {
-  cursor: default;
+  button:disabled {
+    cursor: default;
+  }
 }
 
 :focus-visible {

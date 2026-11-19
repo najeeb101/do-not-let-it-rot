@@ -24,10 +24,10 @@ export function Hud({ stage, lives, score, multiplier, onPause }: Props) {
       {multiplier >= 2 && (
         <span
           key={multiplier}
-          className={`num anim-pop flex h-8 items-center gap-1 rounded-full border-2 border-edge bg-accent px-2.5 text-sm text-on-accent`}
+          className={`num anim-pop flex h-8 items-center gap-1 rounded-full border-2 border-border bg-surface-2 px-2.5 text-sm text-text`}
           aria-label={strings.hud.streak(multiplier)}
         >
-          <SparkIcon size={14} />x{multiplier}
+          <SparkIcon size={14} className="text-ink" />x{multiplier}
         </span>
       )}
       <button

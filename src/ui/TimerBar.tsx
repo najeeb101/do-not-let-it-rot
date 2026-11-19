@@ -17,7 +17,7 @@ export function TimerBar({ fraction, seconds, danger }: Props) {
           style={{ width: `${pct}%`, background: danger ? 'var(--danger)' : 'var(--accent)' }}
         />
       </div>
-      <span className="num w-12 text-right text-sm text-muted">{seconds}s</span>
+      <span className="num w-12 text-right text-sm text-text">{seconds}s</span>
     </div>
   );
 }

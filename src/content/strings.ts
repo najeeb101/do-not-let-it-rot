@@ -5,7 +5,7 @@ export const strings = {
   credit: 'Concept by a friend | v1.0.0',
   best: 'Best',
   noScore: '-',
-  comingSoon: 'Coming soon',
+  comingSoon: 'Soon',
   settings: 'Settings',
   modes: {
     visualMemory: { name: 'Visual Memory', hint: 'Watch. Remember. Tap.' },

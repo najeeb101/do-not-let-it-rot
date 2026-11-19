@@ -8,24 +8,25 @@ import { RotMeter } from '../ui/RotMeter';
 type Props = {
   save: SaveV1;
   onPlay: (mode: ModeId) => void;
-  onTheme: () => void;
+  onSettings: () => void;
+  onCredits: () => void;
 };
 
-const cards: { id: ModeId; icon: ReactNode; playable: boolean }[] = [
-  { id: 'visualMemory', icon: <GridIcon />, playable: true },
-  { id: 'speedMath', icon: <MathIcon />, playable: true },
-  { id: 'piChallenge', icon: <PiIcon />, playable: true },
+const cards: { id: ModeId; icon: ReactNode }[] = [
+  { id: 'visualMemory', icon: <GridIcon /> },
+  { id: 'speedMath', icon: <MathIcon /> },
+  { id: 'piChallenge', icon: <PiIcon /> },
 ];
 
-export function Home({ save, onPlay, onTheme }: Props) {
+export function Home({ save, onPlay, onSettings, onCredits }: Props) {
   return (
     <main className="screen">
       <div className="flex justify-end">
         <button
           type="button"
-          onClick={onTheme}
-          aria-label={strings.theme[save.settings.theme]}
-          title={strings.theme[save.settings.theme]}
+          onClick={onSettings}
+          aria-label={strings.home.openSettings}
+          title={strings.home.openSettings}
           className="flex h-11 w-11 items-center justify-center rounded-xl border-2 border-border bg-surface-2 text-text"
         >
           <GearIcon />
@@ -40,7 +41,7 @@ export function Home({ save, onPlay, onTheme }: Props) {
       </div>
       <div className="flex-[0.7]" />
 
-      <nav className="flex flex-col gap-3" aria-label="Game modes">
+      <nav className="flex flex-col gap-3" aria-label={strings.home.modes}>
         {cards.map((c) => {
           const m = strings.modes[c.id];
           const best = save.bests[c.id];
@@ -48,11 +49,8 @@ export function Home({ save, onPlay, onTheme }: Props) {
             <button
               key={c.id}
               type="button"
-              disabled={!c.playable}
-              onClick={() => c.playable && onPlay(c.id)}
-              className={`flex min-h-[88px] items-center gap-3 rounded-[20px] border-2 bg-surface p-4 text-left ${
-                c.playable ? 'border-border active:scale-[0.98]' : 'border-border opacity-60'
-              }`}
+              onClick={() => onPlay(c.id)}
+              className="flex min-h-[88px] items-center gap-3 rounded-[20px] border-2 border-border bg-surface p-4 text-left active:scale-[0.98]"
             >
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-surface-2 text-ink">
                 {c.icon}
@@ -61,22 +59,22 @@ export function Home({ save, onPlay, onTheme }: Props) {
                 <span className="text-lg font-semibold leading-6">{m.name}</span>
                 <span className="text-sm text-muted">{m.hint}</span>
               </span>
-              {c.playable ? (
-                <span className="flex flex-col items-end">
-                  <span className="text-xs text-muted">{strings.best}</span>
-                  <span className="num text-[32px] leading-9 text-ink">{best > 0 ? best : strings.noScore}</span>
-                  {c.id === 'piChallenge' && best > 0 && <span className="-mt-1 text-xs text-muted">{strings.digitsUnit}</span>}
-                </span>
-              ) : (
-                <span className="text-xs text-muted">{strings.comingSoon}</span>
-              )}
+              <span className="flex flex-col items-end">
+                <span className="text-xs text-muted">{strings.best}</span>
+                <span className="num text-[32px] leading-9 text-ink">{best > 0 ? best : strings.noScore}</span>
+                {c.id === 'piChallenge' && best > 0 && (
+                  <span className="-mt-1 text-xs text-muted">{strings.digitsUnit}</span>
+                )}
+              </span>
             </button>
           );
         })}
       </nav>
 
       <div className="flex-[0.6]" />
-      <p className="text-center text-xs text-muted">{strings.credit}</p>
+      <button type="button" onClick={onCredits} className="mx-auto min-h-11 px-3 text-xs text-muted">
+        {strings.conceptBy} {strings.friendName} | {strings.version}
+      </button>
     </main>
   );
 }

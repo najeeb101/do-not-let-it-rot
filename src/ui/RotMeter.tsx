@@ -11,10 +11,10 @@ const line = { stroke: '#0E1116', strokeWidth: 2, strokeLinecap: 'round', fill: 
 
 function Drip() {
   return (
-    <>
+    <g className="rot-drip">
       <path d="M32 55V60" stroke="#6FA33A" strokeWidth={3} strokeLinecap="round" />
       <circle cx={32} cy={61.5} r={2} fill="#6FA33A" />
-    </>
+    </g>
   );
 }
 
@@ -36,8 +36,10 @@ function Face({ stage }: { stage: RotStage }) {
           <circle cx={45} cy={24} r={3} fill="#3B2A18" />
           <circle cx={37} cy={44} r={2.5} fill="#3B2A18" />
           <Drip />
-          <circle cx={55} cy={53} r={1.7} fill="var(--text)" />
-          <circle cx={58.6} cy={50} r={1.7} fill="var(--text)" />
+          <g className="rot-flies">
+            <circle cx={55} cy={53} r={1.7} fill="var(--text)" />
+            <circle cx={58.6} cy={50} r={1.7} fill="var(--text)" />
+          </g>
         </>
       )}
       {stage === 3 && (

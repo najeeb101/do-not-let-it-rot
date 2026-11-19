@@ -6,7 +6,3 @@ export function applyTheme(theme: Theme): void {
   if (theme === 'system') root.removeAttribute('data-theme');
   else root.setAttribute('data-theme', theme);
 }
-
-export function nextTheme(theme: Theme): Theme {
-  return theme === 'system' ? 'light' : theme === 'light' ? 'dark' : 'system';
-}

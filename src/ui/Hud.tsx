@@ -14,7 +14,9 @@ type Props = {
 export function Hud({ stage, lives, score, multiplier, onPause }: Props) {
   return (
     <header className="flex h-14 items-center gap-3">
-      <RotMeter stage={stage} size={40} lives={lives} label={strings.hud.lives(lives)} />
+      <span key={stage} className={`inline-flex ${stage > 0 ? 'rot-swap' : ''}`}>
+        <RotMeter stage={stage} size={40} lives={lives} label={strings.hud.lives(lives)} />
+      </span>
       <div className="flex min-w-0 flex-1 flex-col leading-none">
         <span className="text-xs uppercase tracking-wider text-muted">{strings.hud.score}</span>
         <span className="num text-[28px] leading-8" aria-live="off">

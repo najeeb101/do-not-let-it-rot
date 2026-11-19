@@ -267,3 +267,41 @@ body {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* Rot Meter stage animations (D26). Reduced motion swaps the wobble for a short fade. */
+@keyframes drip {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(3px);
+    opacity: 0.6;
+  }
+}
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.rot-swap {
+  animation: wobble 300ms ease-out both;
+}
+.rot-drip {
+  animation: drip 1.6s ease-in-out infinite;
+}
+.rot-flies {
+  transform-origin: 56px 52px;
+  animation: orbit 2.4s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rot-swap {
+    animation: fade-in 150ms linear both !important;
+    animation-duration: 150ms !important;
+  }
+  .rot-drip,
+  .rot-flies {
+    animation: none !important;
+  }
+}

@@ -11,6 +11,7 @@ export type GameOverData = {
   previousBest: number;
   newBest: boolean;
   tier: GameOverTier;
+  detail?: { typed: string; expected: string };
 };
 
 type Props = { data: GameOverData; onRetry: () => void; onMenu: () => void };
@@ -27,14 +28,20 @@ export function GameOver({ data, onRetry, onMenu }: Props) {
         <p className="num text-[72px] leading-none text-ink" data-testid="final-score">
           {data.score}
         </p>
+        {data.mode === 'piChallenge' && <p className="-mt-2 text-muted">{strings.digitsUnit}</p>}
+        {data.detail && <p className="text-sm text-muted">{strings.pi.typedWrong(data.detail.typed, data.detail.expected)}</p>}
         {data.newBest && (
           <span className="num rounded-full border-2 border-edge bg-accent px-3 py-0.5 text-sm text-on-accent">
             {strings.gameOver.newBest}
           </span>
         )}
         <dl className="mt-2 grid w-full grid-cols-[1fr_auto] gap-y-1 text-left">
-          <dt className="text-muted">{strings.gameOver.bestStreak}</dt>
-          <dd className="num">{data.bestStreak}</dd>
+          {data.mode !== 'piChallenge' && (
+            <>
+              <dt className="text-muted">{strings.gameOver.bestStreak}</dt>
+              <dd className="num">{data.bestStreak}</dd>
+            </>
+          )}
           <dt className="text-muted">{data.newBest ? strings.gameOver.previousBest : strings.gameOver.personalBest}</dt>
           <dd className="num">{data.previousBest}</dd>
         </dl>

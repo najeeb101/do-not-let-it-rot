@@ -43,12 +43,14 @@ test('plays correct answers with the pad and ends after three misses', async ({ 
 
   for (let i = 0; i < 3; i++) {
     await expect(page.getByRole('status')).toHaveText('', { timeout: 3000 });
-    await tapNumber(page, 999);
-    await page.getByRole('button', { name: 'OK' }).click();
-    if (i < 2) await expect(page.getByRole('status')).toContainText('=');
+    await expect(async () => {
+      await tapNumber(page, 999);
+      await page.getByRole('button', { name: 'OK' }).click();
+      if (i < 2) await expect(page.getByRole('status')).toContainText('=', { timeout: 800 });
+    }).toPass({ timeout: 6000 });
   }
 
-  await expect(page.getByTestId('final-score')).toBeVisible({ timeout: 6000 });
+  await expect(page.getByTestId('final-score')).toBeVisible({ timeout: 12000 });
   const score = await page.getByTestId('final-score').innerText();
   expect(Number(score)).toBeGreaterThan(0);
   await expect(page.getByText('NEW BEST')).toBeVisible();

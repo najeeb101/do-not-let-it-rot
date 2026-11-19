@@ -8,6 +8,7 @@ import { applyTheme, nextTheme } from './lib/theme';
 import { GameOver } from './screens/GameOver';
 import type { GameOverData } from './screens/GameOver';
 import { Home } from './screens/Home';
+import { PiScreen } from './screens/PiScreen';
 import { SpeedMathScreen } from './screens/SpeedMathScreen';
 import { VisualMemoryScreen } from './screens/VisualMemoryScreen';
 
@@ -46,6 +47,7 @@ export function App() {
           previousBest: rec.previousBest,
           newBest: rec.newPersonalBest,
           tier: gameOverTier(mode, game.score),
+          detail: game.detail,
         },
       });
     },
@@ -66,11 +68,9 @@ export function App() {
       onFinish: (g: FinishedGame) => onFinish(mode, g),
       onQuit: () => setScreen({ name: 'home' }),
     };
-    return mode === 'visualMemory' ? (
-      <VisualMemoryScreen key={screen.run} {...props} />
-    ) : (
-      <SpeedMathScreen key={screen.run} {...props} />
-    );
+    if (mode === 'visualMemory') return <VisualMemoryScreen key={screen.run} {...props} />;
+    if (mode === 'piChallenge') return <PiScreen key={screen.run} {...props} />;
+    return <SpeedMathScreen key={screen.run} {...props} />;
   }
   if (screen.name === 'over') {
     const mode = screen.data.mode;

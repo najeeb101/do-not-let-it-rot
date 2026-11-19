@@ -14,7 +14,7 @@ type Props = {
 const cards: { id: ModeId; icon: ReactNode; playable: boolean }[] = [
   { id: 'visualMemory', icon: <GridIcon />, playable: true },
   { id: 'speedMath', icon: <MathIcon />, playable: true },
-  { id: 'piChallenge', icon: <PiIcon />, playable: false },
+  { id: 'piChallenge', icon: <PiIcon />, playable: true },
 ];
 
 export function Home({ save, onPlay, onTheme }: Props) {
@@ -65,6 +65,7 @@ export function Home({ save, onPlay, onTheme }: Props) {
                 <span className="flex flex-col items-end">
                   <span className="text-xs text-muted">{strings.best}</span>
                   <span className="num text-[32px] leading-9 text-ink">{best > 0 ? best : strings.noScore}</span>
+                  {c.id === 'piChallenge' && best > 0 && <span className="-mt-1 text-xs text-muted">{strings.digitsUnit}</span>}
                 </span>
               ) : (
                 <span className="text-xs text-muted">{strings.comingSoon}</span>

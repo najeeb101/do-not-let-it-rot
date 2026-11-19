@@ -4,7 +4,7 @@ A fast-paced brain-training game that fights brain rot. Short, timed challenges 
 
 > Scroll less. Think more.
 
-Status: planning. No game code yet. Start with [docs/MASTER.md](docs/MASTER.md).
+Status: in development (Speed Math playable). Start with [docs/MASTER.md](docs/MASTER.md).
 
 Concept by a friend (credit to be added). Built by Najeeb Abdi.
 
@@ -26,3 +26,12 @@ Concept by a friend (credit to be added). Built by Najeeb Abdi.
 
 ## License
 MIT
+
+## Setup
+Needs Node 22.12 or newer.
+
+```
+npm install && npm run dev
+```
+
+Other scripts: `npm run build`, `npm run preview`, `npm run typecheck`, `npm run lint`, `npm test` (unit), `npm run test:e2e` (Playwright, run `npx playwright install chromium` once).

@@ -1,6 +1,6 @@
 # Do Not Let It Rot
 
-Mobile-first brain-training web game that fights brain rot: Visual Memory, Speed Math, Pi Challenge. Vite + React + TypeScript + Tailwind, no backend, local saves, PWA on Vercel. Status: planning, no product code yet.
+Mobile-first brain-training web game that fights brain rot: Visual Memory, Speed Math, Pi Challenge. Vite + React + TypeScript + Tailwind, no backend, local saves, PWA on Vercel. Status: in development.
 
 ## Read first
 Read `docs/MASTER.md` before anything else. It is the source of truth (decisions D1 to D30); if another doc disagrees, MASTER wins and the other doc gets fixed.
@@ -15,8 +15,8 @@ Read `docs/MASTER.md` before anything else. It is the source of truth (decisions
 | `docs/LAYOUT.md` | Every screen and flow, wireframes |
 | `docs/CANVA_BRIEF.md` | Frames and assets to design in Canva |
 
-## Commands (to be filled in Phase 0)
-- Install: `npm install`
+## Commands
+- Install: `npm install` (Node 22.12+; e2e needs `npx playwright install chromium` once)
 - Dev server: `npm run dev`
 - Test: `npm test` (unit), `npm run test:e2e` (Playwright)
 - Build: `npm run build`

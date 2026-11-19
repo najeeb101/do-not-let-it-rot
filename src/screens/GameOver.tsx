@@ -17,13 +17,15 @@ export type GameOverData = {
 type Props = { data: GameOverData; onRetry: () => void; onMenu: () => void };
 
 export function GameOver({ data, onRetry, onMenu }: Props) {
+  /** Pi has no lives, so its brain reflects the score instead of a fixed rotten one. */
+  const healthy = data.mode === 'piChallenge' && (data.newBest || data.tier === 'high');
   const line = data.newBest ? strings.gameOver.newBestLine : strings.gameOver[data.tier];
   return (
-    <main className="screen justify-center gap-6">
+    <main className="screen justify-center gap-4">
       <p className="num text-center text-sm uppercase tracking-widest text-muted">{strings.modes[data.mode].name}</p>
 
-      <section className="flex flex-col items-center gap-3 rounded-[20px] border-2 border-border bg-surface p-6 text-center">
-        <RotMeter stage={3} size={80} label="Rotten brain" />
+      <section className="flex flex-col items-center gap-2 rounded-[20px] border-2 border-border bg-surface p-5 text-center">
+        <RotMeter stage={healthy ? 0 : 3} size={80} label={healthy ? 'Healthy brain' : 'Rotten brain'} />
         <h1 className="num max-w-[260px] text-2xl leading-8">{line}</h1>
         <p className="num text-[72px] leading-none text-ink" data-testid="final-score">
           {data.score}

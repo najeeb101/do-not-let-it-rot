@@ -59,7 +59,7 @@ export function ConfirmDialog({ title, body, confirmLabel, onConfirm, onCancel }
           >
             {strings.settingsScreen.cancel}
           </button>
-          <Button onClick={onConfirm} className="!bg-danger !text-white">
+          <Button onClick={onConfirm} className="!border-danger !bg-danger !text-white">
             {confirmLabel}
           </Button>
         </div>

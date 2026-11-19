@@ -1,0 +1,339 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=390"><title>DNLIR screens</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"><style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{margin:0;padding:0;background:#222}
+body{-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.dark{--bg:#0E1116;--surface:#171B22;--surface2:#212731;--text:#F4F6F8;--muted:#9AA4B2;--border:#3A4352;--accent:#C6F24E;--ink:#C6F24E;--onAccent:#0E1116;--success:#3DDC84;--danger:#FF6B78;--warning:#FFB84D;--tileIdle:#1C222B;--tileLit:#C6F24E;--tileOk:#3DDC84;--tileBad:#FF6B78;--onOk:#0E1116;--onBad:#0E1116;--edge:#C6F24E;--missed:#C6F24E;--btnShadow:0 0 0 transparent;--cardShadow:0 0 0 transparent;--trackEdge:transparent;--trackH:8px;--rot0:#C6F24E;--rot1:#A3C23A;--rot2:#B58A3A;--rot3:#8A6A4A}
+.light{--bg:#F7F8F4;--surface:#FFFFFF;--surface2:#EDEFE8;--text:#0E1116;--muted:#505A68;--border:#8A93A0;--accent:#C6F24E;--ink:#4A6600;--onAccent:#0E1116;--success:#1E7A3E;--danger:#C62839;--warning:#8A5A00;--tileIdle:#DDE1D6;--tileLit:#C6F24E;--tileOk:#1E7A3E;--tileBad:#C62839;--onOk:#FFFFFF;--onBad:#FFFFFF;--edge:#0E1116;--missed:#4A6600;--btnShadow:0 2px 0 #0E1116;--cardShadow:0 0 0 transparent;--trackEdge:#0E1116;--trackH:12px;--rot0:#C6F24E;--rot1:#B9C94A;--rot2:#C4A24A;--rot3:#8A6A4A}
+.frame{width:390px;height:844px;position:relative;overflow:hidden;background:var(--bg);color:var(--text);padding:48px 20px 34px;display:flex;flex-direction:column;page-break-after:always;break-after:page}
+.frame:last-child{page-break-after:auto;break-after:auto}
+@media screen{.frame{margin:0 auto 24px}}
+.d{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:700;font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+.xs{font-size:12px;line-height:16px;font-weight:500}
+.sm{font-size:14px;line-height:20px;font-weight:500}
+.base{font-size:16px;line-height:24px;font-weight:400}
+.lg{font-size:18px;line-height:24px;font-weight:600}
+.xl{font-size:24px;line-height:28px}
+.x2{font-size:32px;line-height:36px}
+.x3{font-size:48px;line-height:52px}
+.hero{font-size:72px;line-height:76px}
+.muted{color:var(--muted)}.ink{color:var(--ink)}.center{text-align:center}.nw{white-space:nowrap}
+.upper{text-transform:uppercase;letter-spacing:.08em}
+.grow{flex:1}
+.row{display:flex;align-items:center}
+svg{display:block}
+.btn{height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;width:100%;white-space:nowrap}
+.btn.primary{background:var(--accent);color:var(--onAccent);border:2px solid var(--edge);box-shadow:var(--btnShadow)}
+.btn.pressed{transform:translateY(2px);box-shadow:0 0 0 transparent}
+.btn.secondary{border:2px solid var(--text);color:var(--text)}
+.btn.destructive{border:2px solid var(--danger);color:var(--danger)}
+
+.iconbtn{width:44px;height:44px;border-radius:12px;background:var(--surface2);display:flex;align-items:center;justify-content:center;flex:none;color:var(--text)}
+.hud{height:56px;display:flex;align-items:center;gap:12px;flex:none}
+.score{display:flex;flex-direction:column}
+.chip{height:32px;padding:0 12px;border-radius:999px;background:var(--surface2);display:flex;align-items:center;gap:6px;font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:18px;line-height:24px;color:var(--text);white-space:nowrap;flex:none}
+.chip svg{color:var(--ink)}
+.timer{display:flex;align-items:center;gap:12px;height:24px;flex:none;margin-top:4px}
+.track{flex:1;height:var(--trackH);border-radius:999px;background:var(--surface2);border:2px solid var(--trackEdge);overflow:hidden}
+.fill{height:100%;background:var(--accent);border-radius:999px}
+.fill.warn{background:var(--warning)}.fill.bad{background:var(--danger)}
+.tsec{min-width:44px;text-align:right;font-size:16px;white-space:nowrap}
+.card{background:var(--surface);border:2px solid var(--border);border-radius:20px;min-height:88px;padding:0 16px;display:flex;align-items:center;gap:14px;box-shadow:var(--cardShadow);width:100%}
+.ibox{width:44px;height:44px;border-radius:12px;background:var(--surface2);display:flex;align-items:center;justify-content:center;flex:none;color:var(--ink)}
+.cbest{text-align:right;flex:none;min-width:64px}
+.grid3{display:grid;grid-template-columns:repeat(3,111px);gap:8px;align-self:center}
+.tile{width:111px;height:111px;border-radius:14px;border:2px solid var(--border);background:var(--tileIdle);display:flex;align-items:center;justify-content:center}
+.tile.s{width:62px;height:62px}
+.tile.lit{background:var(--tileLit);border-color:var(--edge)}
+.tile.sel{background:var(--tileLit);border:3px solid var(--text)}
+.tile.ok{background:var(--tileOk);border-color:var(--tileOk);color:var(--onOk)}
+.tile.bad{background:var(--tileBad);border-color:var(--tileBad);color:var(--onBad)}
+.tile.miss{border:3px dashed var(--missed)}
+.dot{width:24px;height:24px;border-radius:50%;background:var(--onAccent)}
+.tile.s .dot{width:16px;height:16px}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%}
+.key{height:64px;border-radius:12px;background:var(--surface2);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:24px;color:var(--text)}
+.key.enter{background:var(--accent);border-color:var(--edge);color:var(--onAccent);font-size:20px;box-shadow:var(--btnShadow)}
+.key.s{height:48px;font-size:20px}
+.srow{height:56px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex:none}
+.sw{width:52px;height:32px;border-radius:999px;border:2px solid var(--border);background:var(--surface2);position:relative;flex:none}
+.sw.on{background:var(--accent);border-color:var(--edge)}
+.sw i{position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:50%;background:var(--muted);display:flex;align-items:center;justify-content:center}
+.sw.on i{left:auto;right:2px;background:var(--onAccent);color:var(--accent)}
+.sw i b{width:8px;height:8px;border-radius:50%;background:var(--surface2);display:block}
+.seg{display:flex;height:44px;border:2px solid var(--border);border-radius:12px;overflow:hidden;width:100%;background:var(--surface)}
+.seg div{flex:1;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--text)}
+.seg div.on{background:var(--accent);color:var(--onAccent)}
+.seg div+div{border-left:2px solid var(--border)}
+.panel{background:var(--surface);border:2px solid var(--border);border-radius:20px;box-shadow:var(--cardShadow)}
+.pill{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 14px;border-radius:999px;background:var(--surface2);font-size:14px;font-weight:500;color:var(--text);white-space:nowrap}
+.badge{display:inline-flex;align-items:center;height:32px;padding:0 16px;border-radius:999px;background:var(--accent);border:2px solid var(--edge);color:var(--onAccent);font-size:14px;font-weight:600;letter-spacing:.06em;white-space:nowrap}
+.stream{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:48px;line-height:56px;letter-spacing:.04em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.stream .g{display:inline-block;margin-right:14px}
+.caret{display:inline-block;width:3px;height:44px;background:var(--ink);vertical-align:-8px;margin-left:2px}
+.stat{display:flex;justify-content:space-between;align-items:baseline}
+
+.dark .dim,.dark .disabled{color:var(--text);--text:#6a6d70;--muted:#464c54;--surface:#12151b;--surface2:#161a21;--border:#20252e;--accent:#586b2c;--ink:#586b2c;--onAccent:#0e1116;--edge:#586b2c;--danger:#6e353d} .light .dim,.light .disabled{color:var(--text);--text:#9a9c9b;--muted:#b4b9bc;--surface:#fafbf8;--surface2:#f3f4ef;--border:#cbd0d2;--accent:#e3f6b2;--ink:#b2be92;--onAccent:#9a9c9b;--edge:#9a9c9b;--danger:#e3a5a9;--btnShadow:0 2px 0 #9a9c9b}@page{size:390px 844px;margin:0}</style></head><body><section class="frame dark" id="frame-1" data-name="Home / Dark">
+<div class="row" style="justify-content:flex-end;height:44px;flex:none"><div class="iconbtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><path d="M12 2.5V5.5M12 18.5V21.5M2.5 12H5.5M18.5 12H21.5M5.3 5.3L7.4 7.4M16.6 16.6L18.7 18.7M5.3 18.7L7.4 16.6M16.6 7.4L18.7 5.3"/></svg></div></div>
+<div class="grow" style="flex:.4"></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex:none">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="128" height="128"><path d="M32 8C26 4 16 6 13 14C7 15 4 22 6 28C2 32 3 41 9 44C10 51 18 56 25 53C28 57 36 57 39 53C46 56 54 51 55 44C61 41 62 32 58 28C60 22 57 15 51 14C48 6 38 4 32 8Z" fill="var(--rot0)" stroke="var(--text)" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 9C30 20 34 30 32 40C31 46 33 50 32 54" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24C18 22 20 26 24 24M12 36C16 34 19 38 23 36M50 24C46 22 44 26 40 24M52 36C48 34 45 38 41 36" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M57 2L58.6 6.4L63 8L58.6 9.6L57 14L55.4 9.6L51 8L55.4 6.4Z" fill="var(--accent)" stroke="var(--text)" stroke-width="1.2" stroke-linejoin="round"/></svg>
+ <div class="d x2 center nw" style="margin-top:8px">Do Not Let It Rot</div>
+ <div class="base muted center">Keep your brain sharp.</div>
+</div>
+<div class="grow" style="flex:.7"></div>
+<div style="display:flex;flex-direction:column;gap:12px;flex:none">
+ <div class="card"><div class="ibox"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="5.5" height="5.5" rx="1.2" fill="currentColor"/><rect x="9.25" y="2" width="5.5" height="5.5" rx="1.2"/><rect x="16.5" y="2" width="5.5" height="5.5" rx="1.2"/><rect x="2" y="9.25" width="5.5" height="5.5" rx="1.2"/><rect x="9.25" y="9.25" width="5.5" height="5.5" rx="1.2" fill="currentColor"/><rect x="16.5" y="9.25" width="5.5" height="5.5" rx="1.2"/><rect x="2" y="16.5" width="5.5" height="5.5" rx="1.2"/><rect x="9.25" y="16.5" width="5.5" height="5.5" rx="1.2"/><rect x="16.5" y="16.5" width="5.5" height="5.5" rx="1.2" fill="currentColor"/></svg></div><div class="grow" style="min-width:0"><div class="lg nw">Visual Memory</div><div class="sm muted nw">Watch. Remember. Tap.</div></div><div class="cbest"><div class="xs muted">Best</div><div class="d x2 ink">8</div></div></div>
+ <div class="card"><div class="ibox"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M7 2.5V11.5M2.5 7H11.5M14 14L21.5 21.5M21.5 14L14 21.5"/></svg></div><div class="grow" style="min-width:0"><div class="lg nw">Speed Math</div><div class="sm muted nw">Solve fast. Don't blink.</div></div><div class="cbest"><div class="xs muted">Best</div><div class="d x2 ink">1,240</div></div></div>
+ <div class="card"><div class="ibox"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 6.5H20.5M8.5 6.5V19M15.5 6.5V16.5C15.5 19 16.5 19.5 19 19.5"/></svg></div><div class="grow" style="min-width:0"><div class="lg nw">Pi Challenge</div><div class="sm muted nw">Type pi. 30 seconds.</div></div><div class="cbest"><div class="xs muted">Best</div><div class="d x2 ink">21</div><div class="xs muted" style="margin-top:-2px">digits</div></div></div>
+</div>
+<div class="grow"></div>
+<div class="center sm muted" style="flex:none">Concept by [friend name]<span style="margin:0 8px">|</span>v1.0.0</div></section>
+<section class="frame light" id="frame-2" data-name="Home / Light">
+<div class="row" style="justify-content:flex-end;height:44px;flex:none"><div class="iconbtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><path d="M12 2.5V5.5M12 18.5V21.5M2.5 12H5.5M18.5 12H21.5M5.3 5.3L7.4 7.4M16.6 16.6L18.7 18.7M5.3 18.7L7.4 16.6M16.6 7.4L18.7 5.3"/></svg></div></div>
+<div class="grow" style="flex:.4"></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex:none">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="128" height="128"><path d="M32 8C26 4 16 6 13 14C7 15 4 22 6 28C2 32 3 41 9 44C10 51 18 56 25 53C28 57 36 57 39 53C46 56 54 51 55 44C61 41 62 32 58 28C60 22 57 15 51 14C48 6 38 4 32 8Z" fill="var(--rot0)" stroke="var(--text)" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 9C30 20 34 30 32 40C31 46 33 50 32 54" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24C18 22 20 26 24 24M12 36C16 34 19 38 23 36M50 24C46 22 44 26 40 24M52 36C48 34 45 38 41 36" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M57 2L58.6 6.4L63 8L58.6 9.6L57 14L55.4 9.6L51 8L55.4 6.4Z" fill="var(--accent)" stroke="var(--text)" stroke-width="1.2" stroke-linejoin="round"/></svg>
+ <div class="d x2 center nw" style="margin-top:8px">Do Not Let It Rot</div>
+ <div class="base muted center">Keep your brain sharp.</div>
+</div>
+<div class="grow" style="flex:.7"></div>
+<div style="display:flex;flex-direction:column;gap:12px;flex:none">
+ <div class="card"><div class="ibox"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="5.5" height="5.5" rx="1.2" fill="currentColor"/><rect x="9.25" y="2" width="5.5" height="5.5" rx="1.2"/><rect x="16.5" y="2" width="5.5" height="5.5" rx="1.2"/><rect x="2" y="9.25" width="5.5" height="5.5" rx="1.2"/><rect x="9.25" y="9.25" width="5.5" height="5.5" rx="1.2" fill="currentColor"/><rect x="16.5" y="9.25" width="5.5" height="5.5" rx="1.2"/><rect x="2" y="16.5" width="5.5" height="5.5" rx="1.2"/><rect x="9.25" y="16.5" width="5.5" height="5.5" rx="1.2"/><rect x="16.5" y="16.5" width="5.5" height="5.5" rx="1.2" fill="currentColor"/></svg></div><div class="grow" style="min-width:0"><div class="lg nw">Visual Memory</div><div class="sm muted nw">Watch. Remember. Tap.</div></div><div class="cbest"><div class="xs muted">Best</div><div class="d x2 ink">8</div></div></div>
+ <div class="card"><div class="ibox"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M7 2.5V11.5M2.5 7H11.5M14 14L21.5 21.5M21.5 14L14 21.5"/></svg></div><div class="grow" style="min-width:0"><div class="lg nw">Speed Math</div><div class="sm muted nw">Solve fast. Don't blink.</div></div><div class="cbest"><div class="xs muted">Best</div><div class="d x2 ink">1,240</div></div></div>
+ <div class="card"><div class="ibox"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 6.5H20.5M8.5 6.5V19M15.5 6.5V16.5C15.5 19 16.5 19.5 19 19.5"/></svg></div><div class="grow" style="min-width:0"><div class="lg nw">Pi Challenge</div><div class="sm muted nw">Type pi. 30 seconds.</div></div><div class="cbest"><div class="xs muted">Best</div><div class="d x2 ink">21</div><div class="xs muted" style="margin-top:-2px">digits</div></div></div>
+</div>
+<div class="grow"></div>
+<div class="center sm muted" style="flex:none">Concept by [friend name]<span style="margin:0 8px">|</span>v1.0.0</div></section>
+<section class="frame dark" id="frame-3" data-name="Countdown / Dark">
+<div class="dim"><div class="hud"><div style="width:40px;height:49px;flex:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 78" width="40" height="48.8"><path d="M32 8C26 4 16 6 13 14C7 15 4 22 6 28C2 32 3 41 9 44C10 51 18 56 25 53C28 57 36 57 39 53C46 56 54 51 55 44C61 41 62 32 58 28C60 22 57 15 51 14C48 6 38 4 32 8Z" fill="var(--rot0)" stroke="var(--text)" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 9C30 20 34 30 32 40C31 46 33 50 32 54" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24C18 22 20 26 24 24M12 36C16 34 19 38 23 36M50 24C46 22 44 26 40 24M52 36C48 34 45 38 41 36" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M57 2L58.6 6.4L63 8L58.6 9.6L57 14L55.4 9.6L51 8L55.4 6.4Z" fill="var(--accent)" stroke="var(--text)" stroke-width="1.2" stroke-linejoin="round"/><circle cx="22" cy="71" r="3.4" fill="var(--text)"/><circle cx="32" cy="71" r="3.4" fill="var(--text)"/><circle cx="42" cy="71" r="3.4" fill="var(--text)"/></svg></div><div class="score"><span class="xs muted upper">Score</span><span class="d x2">0</span></div><div class="grow"></div><div class="iconbtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4.5" height="16" rx="1.5"/><rect x="13.5" y="4" width="4.5" height="16" rx="1.5"/></svg></div></div><div class="timer"><div class="track"><div class="fill " style="width:100%"></div></div><span class="tsec d" style="">5.0s</span></div></div>
+<div class="grow" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+ <div class="d ink" style="font-size:160px;line-height:160px">3</div>
+ <div class="lg muted" style="margin-top:16px">Speed Math</div>
+</div>
+<div class="dim" style="flex:none"><div class="pad" ><div class="key ">1</div><div class="key ">2</div><div class="key ">3</div><div class="key ">4</div><div class="key ">5</div><div class="key ">6</div><div class="key ">7</div><div class="key ">8</div><div class="key ">9</div><div class="key "><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6H20A1 1 0 0 1 21 7V17A1 1 0 0 1 20 18H9L3 12Z"/><path d="M12.5 9.5L17 14.5M17 9.5L12.5 14.5"/></svg></div><div class="key ">0</div><div class="key enter">OK</div></div></div></section>
+<section class="frame light" id="frame-4" data-name="Countdown / Light">
+<div class="dim"><div class="hud"><div style="width:40px;height:49px;flex:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 78" width="40" height="48.8"><path d="M32 8C26 4 16 6 13 14C7 15 4 22 6 28C2 32 3 41 9 44C10 51 18 56 25 53C28 57 36 57 39 53C46 56 54 51 55 44C61 41 62 32 58 28C60 22 57 15 51 14C48 6 38 4 32 8Z" fill="var(--rot0)" stroke="var(--text)" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 9C30 20 34 30 32 40C31 46 33 50 32 54" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24C18 22 20 26 24 24M12 36C16 34 19 38 23 36M50 24C46 22 44 26 40 24M52 36C48 34 45 38 41 36" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M57 2L58.6 6.4L63 8L58.6 9.6L57 14L55.4 9.6L51 8L55.4 6.4Z" fill="var(--accent)" stroke="var(--text)" stroke-width="1.2" stroke-linejoin="round"/><circle cx="22" cy="71" r="3.4" fill="var(--text)"/><circle cx="32" cy="71" r="3.4" fill="var(--text)"/><circle cx="42" cy="71" r="3.4" fill="var(--text)"/></svg></div><div class="score"><span class="xs muted upper">Score</span><span class="d x2">0</span></div><div class="grow"></div><div class="iconbtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4.5" height="16" rx="1.5"/><rect x="13.5" y="4" width="4.5" height="16" rx="1.5"/></svg></div></div><div class="timer"><div class="track"><div class="fill " style="width:100%"></div></div><span class="tsec d" style="">5.0s</span></div></div>
+<div class="grow" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+ <div class="d ink" style="font-size:160px;line-height:160px">3</div>
+ <div class="lg muted" style="margin-top:16px">Speed Math</div>
+</div>
+<div class="dim" style="flex:none"><div class="pad" ><div class="key ">1</div><div class="key ">2</div><div class="key ">3</div><div class="key ">4</div><div class="key ">5</div><div class="key ">6</div><div class="key ">7</div><div class="key ">8</div><div class="key ">9</div><div class="key "><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6H20A1 1 0 0 1 21 7V17A1 1 0 0 1 20 18H9L3 12Z"/><path d="M12.5 9.5L17 14.5M17 9.5L12.5 14.5"/></svg></div><div class="key ">0</div><div class="key enter">OK</div></div></div></section>
+<section class="frame dark" id="frame-5" data-name="Visual Memory Show / Dark">
+<div class="hud"><div style="width:40px;height:49px;flex:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 78" width="40" height="48.8"><path d="M32 8C26 4 16 6 13 14C7 15 4 22 6 28C2 32 3 41 9 44C10 51 18 56 25 53C28 57 36 57 39 53C46 56 54 51 55 44C61 41 62 32 58 28C60 22 57 15 51 14C48 6 38 4 32 8Z" fill="var(--rot0)" stroke="var(--text)" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 9C30 20 34 30 32 40C31 46 33 50 32 54" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24C18 22 20 26 24 24M12 36C16 34 19 38 23 36M50 24C46 22 44 26 40 24M52 36C48 34 45 38 41 36" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M57 2L58.6 6.4L63 8L58.6 9.6L57 14L55.4 9.6L51 8L55.4 6.4Z" fill="var(--accent)" stroke="var(--text)" stroke-width="1.2" stroke-linejoin="round"/><circle cx="22" cy="71" r="3.4" fill="var(--text)"/><circle cx="32" cy="71" r="3.4" fill="var(--text)"/><circle cx="42" cy="71" r="3.4" fill="var(--text)"/></svg></div><div class="score"><span class="xs muted upper">Score</span><span class="d x2">360</span></div><div class="grow"></div><div class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L14.5 9.5L23 12L14.5 14.5L12 23L9.5 14.5L1 12L9.5 9.5Z"/></svg>x2</div><div class="iconbtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4.5" height="16" rx="1.5"/><rect x="13.5" y="4" width="4.5" height="16" rx="1.5"/></svg></div></div>
+<div class="timer" style="justify-content:center"><span class="sm muted">Round 4</span></div>
+<div class="grow"></div>
+<div class="row" style="justify-content:center;gap:10px;flex:none;margin-bottom:24px"><span class="ink"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M2 12C5 6 19 6 22 12C19 18 5 18 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></span><span class="d xl">Watch</span></div>
+<div class="grid3"><div class="tile "></div><div class="tile lit"><div class="dot"></div></div><div class="tile "></div><div class="tile lit"><div class="dot"></div></div><div class="tile "></div><div class="tile lit"><div class="dot"></div></div><div class="tile "></div><div class="tile "></div><div class="tile lit"><div class="dot"></div></div></div>
+<div class="grow" style="flex:.5"></div></section>
+<section class="frame light" id="frame-6" data-name="Visual Memory Show / Light">
+<div class="hud"><div style="width:40px;height:49px;flex:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 78" width="40" height="48.8"><path d="M32 8C26 4 16 6 13 14C7 15 4 22 6 28C2 32 3 41 9 44C10 51 18 56 25 53C28 57 36 57 39 53C46 56 54 51 55 44C61 41 62 32 58 28C60 22 57 15 51 14C48 6 38 4 32 8Z" fill="var(--rot0)" stroke="var(--text)" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 9C30 20 34 30 32 40C31 46 33 50 32 54" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24C18 22 20 26 24 24M12 36C16 34 19 38 23 36M50 24C46 22 44 26 40 24M52 36C48 34 45 38 41 36" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M57 2L58.6 6.4L63 8L58.6 9.6L57 14L55.4 9.6L51 8L55.4 6.4Z" fill="var(--accent)" stroke="var(--text)" stroke-width="1.2" stroke-linejoin="round"/><circle cx="22" cy="71" r="3.4" fill="var(--text)"/><circle cx="32" cy="71" r="3.4" fill="var(--text)"/><circle cx="42" cy="71" r="3.4" fill="var(--text)"/></svg></div><div class="score"><span class="xs muted upper">Score</span><span class="d x2">360</span></div><div class="grow"></div><div class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L14.5 9.5L23 12L14.5 14.5L12 23L9.5 14.5L1 12L9.5 9.5Z"/></svg>x2</div><div class="iconbtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4.5" height="16" rx="1.5"/><rect x="13.5" y="4" width="4.5" height="16" rx="1.5"/></svg></div></div>
+<div class="timer" style="justify-content:center"><span class="sm muted">Round 4</span></div>
+<div class="grow"></div>
+<div class="row" style="justify-content:center;gap:10px;flex:none;margin-bottom:24px"><span class="ink"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M2 12C5 6 19 6 22 12C19 18 5 18 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></span><span class="d xl">Watch</span></div>
+<div class="grid3"><div class="tile "></div><div class="tile lit"><div class="dot"></div></div><div class="tile "></div><div class="tile lit"><div class="dot"></div></div><div class="tile "></div><div class="tile lit"><div class="dot"></div></div><div class="tile "></div><div class="tile "></div><div class="tile lit"><div class="dot"></div></div></div>
+<div class="grow" style="flex:.5"></div></section>
+<section class="frame dark" id="frame-7" data-name="Visual Memory Recall / Dark">
+<div class="hud"><div style="width:40px;height:49px;flex:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 78" width="40" height="48.8"><path d="M32 8C26 4 16 6 13 14C7 15 4 22 6 28C2 32 3 41 9 44C10 51 18 56 25 53C28 57 36 57 39 53C46 56 54 51 55 44C61 41 62 32 58 28C60 22 57 15 51 14C48 6 38 4 32 8Z" fill="var(--rot0)" stroke="var(--text)" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 9C30 20 34 30 32 40C31 46 33 50 32 54" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24C18 22 20 26 24 24M12 36C16 34 19 38 23 36M50 24C46 22 44 26 40 24M52 36C48 34 45 38 41 36" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M57 2L58.6 6.4L63 8L58.6 9.6L57 14L55.4 9.6L51 8L55.4 6.4Z" fill="var(--accent)" stroke="var(--text)" stroke-width="1.2" stroke-linejoin="round"/><circle cx="22" cy="71" r="3.4" fill="var(--text)"/><circle cx="32" cy="71" r="3.4" fill="var(--text)"/><circle cx="42" cy="71" r="3.4" fill="var(--text)"/></svg></div><div class="score"><span class="xs muted upper">Score</span><span class="d x2">360</span></div><div class="grow"></div><div class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L14.5 9.5L23 12L14.5 14.5L12 23L9.5 14.5L1 12L9.5 9.5Z"/></svg>x2</div><div class="iconbtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4.5" height="16" rx="1.5"/><rect x="13.5" y="4" width="4.5" height="16" rx="1.5"/></svg></div></div>
+<div class="timer"><div class="track"><div class="fill " style="width:60%"></div></div><span class="tsec d" style="">6s</span></div>
+<div class="grow"></div>
+<div class="d xl center" style="margin-bottom:24px">Your turn: 2 left</div>
+<div class="grid3"><div class="tile "></div><div class="tile sel"><div class="dot"></div></div><div class="tile "></div><div class="tile sel"><div class="dot"></div></div><div class="tile "></div><div class="tile "></div><div class="tile "></div><div class="tile "></div><div class="tile "></div></div>
+<div class="grow" style="flex:.5"></div></section>
+<section class="frame light" id="frame-8" data-name="Visual Memory Recall / Light">
+<div class="hud"><div style="width:40px;height:49px;flex:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 78" width="40" height="48.8"><path d="M32 8C26 4 16 6 13 14C7 15 4 22 6 28C2 32 3 41 9 44C10 51 18 56 25 53C28 57 36 57 39 53C46 56 54 51 55 44C61 41 62 32 58 28C60 22 57 15 51 14C48 6 38 4 32 8Z" fill="var(--rot0)" stroke="var(--text)" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 9C30 20 34 30 32 40C31 46 33 50 32 54" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24C18 22 20 26 24 24M12 36C16 34 19 38 23 36M50 24C46 22 44 26 40 24M52 36C48 34 45 38 41 36" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M57 2L58.6 6.4L63 8L58.6 9.6L57 14L55.4 9.6L51 8L55.4 6.4Z" fill="var(--accent)" stroke="var(--text)" stroke-width="1.2" stroke-linejoin="round"/><circle cx="22" cy="71" r="3.4" fill="var(--text)"/><circle cx="32" cy="71" r="3.4" fill="var(--text)"/><circle cx="42" cy="71" r="3.4" fill="var(--text)"/></svg></div><div class="score"><span class="xs muted upper">Score</span><span class="d x2">360</span></div><div class="grow"></div><div class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L14.5 9.5L23 12L14.5 14.5L12 23L9.5 14.5L1 12L9.5 9.5Z"/></svg>x2</div><div class="iconbtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4.5" height="16" rx="1.5"/><rect x="13.5" y="4" width="4.5" height="16" rx="1.5"/></svg></div></div>
+<div class="timer"><div class="track"><div class="fill " style="width:60%"></div></div><span class="tsec d" style="">6s</span></div>
+<div class="grow"></div>
+<div class="d xl center" style="margin-bottom:24px">Your turn: 2 left</div>
+<div class="grid3"><div class="tile "></div><div class="tile sel"><div class="dot"></div></div><div class="tile "></div><div class="tile sel"><div class="dot"></div></div><div class="tile "></div><div class="tile "></div><div class="tile "></div><div class="tile "></div><div class="tile "></div></div>
+<div class="grow" style="flex:.5"></div></section>
+<section class="frame dark" id="frame-9" data-name="Visual Memory Feedback / Dark">
+<div class="hud"><div style="width:40px;height:49px;flex:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 78" width="40" height="48.8"><path d="M32 8C26 4 16 6 13 14C7 15 4 22 6 28C2 32 3 41 9 44C10 51 18 56 25 53C28 57 36 57 39 53C46 56 54 51 55 44C61 41 62 32 58 28C60 22 57 15 51 14C48 6 38 4 32 8Z" fill="var(--rot1)" stroke="var(--text)" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 9C30 20 34 30 32 40C31 46 33 50 32 54" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24C18 22 20 26 24 24M12 36C16 34 19 38 23 36M50 24C46 22 44 26 40 24M52 36C48 34 45 38 41 36" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="31" r="3.5" fill="#3B2A18"/><circle cx="22" cy="71" r="3.4" fill="var(--text)"/><circle cx="32" cy="71" r="3.4" fill="var(--text)"/><circle cx="42" cy="71" r="2.8" fill="none" stroke="var(--text)" stroke-width="1.6"/></svg></div><div class="score"><span class="xs muted upper">Score</span><span class="d x2">360</span></div><div class="grow"></div><div class="iconbtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4.5" height="16" rx="1.5"/><rect x="13.5" y="4" width="4.5" height="16" rx="1.5"/></svg></div></div>
+<div class="timer"><div class="track"><div class="fill " style="width:60%"></div></div><span class="tsec d" style="">6s</span></div>
+<div class="grow"></div>
+<div class="row" style="justify-content:center;gap:10px;margin-bottom:24px;color:var(--danger)"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6L18 18M18 6L6 18"/></svg><span class="d xl">Wrong tile</span></div>
+<div class="grid3"><div class="tile "></div><div class="tile ok"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5L10 17.5L19 7"/></svg></div><div class="tile "></div><div class="tile miss"></div><div class="tile bad"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6L18 18M18 6L6 18"/></svg></div><div class="tile miss"></div><div class="tile "></div><div class="tile "></div><div class="tile miss"></div></div>
+<div class="center sm muted" style="margin-top:16px;flex:none">Dashed tiles were yours to find.</div>
+<div class="grow" style="flex:.5"></div></section>
+<section class="frame light" id="frame-10" data-name="Visual Memory Feedback / Light">
+<div class="hud"><div style="width:40px;height:49px;flex:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 78" width="40" height="48.8"><path d="M32 8C26 4 16 6 13 14C7 15 4 22 6 28C2 32 3 41 9 44C10 51 18 56 25 53C28 57 36 57 39 53C46 56 54 51 55 44C61 41 62 32 58 28C60 22 57 15 51 14C48 6 38 4 32 8Z" fill="var(--rot1)" stroke="var(--text)" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 9C30 20 34 30 32 40C31 46 33 50 32 54" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24C18 22 20 26 24 24M12 36C16 34 19 38 23 36M50 24C46 22 44 26 40 24M52 36C48 34 45 38 41 36" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="31" r="3.5" fill="#3B2A18"/><circle cx="22" cy="71" r="3.4" fill="var(--text)"/><circle cx="32" cy="71" r="3.4" fill="var(--text)"/><circle cx="42" cy="71" r="2.8" fill="none" stroke="var(--text)" stroke-width="1.6"/></svg></div><div class="score"><span class="xs muted upper">Score</span><span class="d x2">360</span></div><div class="grow"></div><div class="iconbtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4.5" height="16" rx="1.5"/><rect x="13.5" y="4" width="4.5" height="16" rx="1.5"/></svg></div></div>
+<div class="timer"><div class="track"><div class="fill " style="width:60%"></div></div><span class="tsec d" style="">6s</span></div>
+<div class="grow"></div>
+<div class="row" style="justify-content:center;gap:10px;margin-bottom:24px;color:var(--danger)"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6L18 18M18 6L6 18"/></svg><span class="d xl">Wrong tile</span></div>
+<div class="grid3"><div class="tile "></div><div class="tile ok"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5L10 17.5L19 7"/></svg></div><div class="tile "></div><div class="tile miss"></div><div class="tile bad"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6L18 18M18 6L6 18"/></svg></div><div class="tile miss"></div><div class="tile "></div><div class="tile "></div><div class="tile miss"></div></div>
+<div class="center sm muted" style="margin-top:16px;flex:none">Dashed tiles were yours to find.</div>
+<div class="grow" style="flex:.5"></div></section>
+<section class="frame dark" id="frame-11" data-name="Speed Math / Dark">
+<div class="hud"><div style="width:40px;height:49px;flex:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 78" width="40" height="48.8"><path d="M32 8C26 4 16 6 13 14C7 15 4 22 6 28C2 32 3 41 9 44C10 51 18 56 25 53C28 57 36 57 39 53C46 56 54 51 55 44C61 41 62 32 58 28C60 22 57 15 51 14C48 6 38 4 32 8Z" fill="var(--rot1)" stroke="var(--text)" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 9C30 20 34 30 32 40C31 46 33 50 32 54" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24C18 22 20 26 24 24M12 36C16 34 19 38 23 36M50 24C46 22 44 26 40 24M52 36C48 34 45 38 41 36" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="31" r="3.5" fill="#3B2A18"/><circle cx="22" cy="71" r="3.4" fill="var(--text)"/><circle cx="32" cy="71" r="3.4" fill="var(--text)"/><circle cx="42" cy="71" r="2.8" fill="none" stroke="var(--text)" stroke-width="1.6"/></svg></div><div class="score"><span class="xs muted upper">Score</span><span class="d x2">540</span></div><div class="grow"></div><div class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L14.5 9.5L23 12L14.5 14.5L12 23L9.5 14.5L1 12L9.5 9.5Z"/></svg>x2</div><div class="iconbtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4.5" height="16" rx="1.5"/><rect x="13.5" y="4" width="4.5" height="16" rx="1.5"/></svg></div></div>
+<div class="timer"><div class="track"><div class="fill " style="width:62%"></div></div><span class="tsec d" style="">3.1s</span></div>
+<div class="grow" style="flex:1"></div>
+<div class="d center nw" style="font-size:72px;line-height:76px">47 &times; 6</div>
+<div class="grow" style="flex:.6"></div>
+<div style="align-self:center;width:200px;flex:none">
+ <div class="d center" style="font-size:48px;line-height:52px;height:56px">28<span class="caret" style="height:44px;vertical-align:-6px"></span></div>
+ <div style="height:3px;background:var(--text);border-radius:2px;margin-top:6px"></div>
+</div>
+<div class="center sm muted" style="height:32px;margin-top:12px;flex:none"></div>
+<div class="grow" style="flex:.6"></div>
+<div style="flex:none"><div class="pad" ><div class="key ">1</div><div class="key ">2</div><div class="key ">3</div><div class="key ">4</div><div class="key ">5</div><div class="key ">6</div><div class="key ">7</div><div class="key ">8</div><div class="key ">9</div><div class="key "><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6H20A1 1 0 0 1 21 7V17A1 1 0 0 1 20 18H9L3 12Z"/><path d="M12.5 9.5L17 14.5M17 9.5L12.5 14.5"/></svg></div><div class="key ">0</div><div class="key enter">OK</div></div></div></section>
+<section class="frame light" id="frame-12" data-name="Speed Math / Light">
+<div class="hud"><div style="width:40px;height:49px;flex:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 78" width="40" height="48.8"><path d="M32 8C26 4 16 6 13 14C7 15 4 22 6 28C2 32 3 41 9 44C10 51 18 56 25 53C28 57 36 57 39 53C46 56 54 51 55 44C61 41 62 32 58 28C60 22 57 15 51 14C48 6 38 4 32 8Z" fill="var(--rot1)" stroke="var(--text)" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 9C30 20 34 30 32 40C31 46 33 50 32 54" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24C18 22 20 26 24 24M12 36C16 34 19 38 23 36M50 24C46 22 44 26 40 24M52 36C48 34 45 38 41 36" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="31" r="3.5" fill="#3B2A18"/><circle cx="22" cy="71" r="3.4" fill="var(--text)"/><circle cx="32" cy="71" r="3.4" fill="var(--text)"/><circle cx="42" cy="71" r="2.8" fill="none" stroke="var(--text)" stroke-width="1.6"/></svg></div><div class="score"><span class="xs muted upper">Score</span><span class="d x2">540</span></div><div class="grow"></div><div class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L14.5 9.5L23 12L14.5 14.5L12 23L9.5 14.5L1 12L9.5 9.5Z"/></svg>x2</div><div class="iconbtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4.5" height="16" rx="1.5"/><rect x="13.5" y="4" width="4.5" height="16" rx="1.5"/></svg></div></div>
+<div class="timer"><div class="track"><div class="fill " style="width:62%"></div></div><span class="tsec d" style="">3.1s</span></div>
+<div class="grow" style="flex:1"></div>
+<div class="d center nw" style="font-size:72px;line-height:76px">47 &times; 6</div>
+<div class="grow" style="flex:.6"></div>
+<div style="align-self:center;width:200px;flex:none">
+ <div class="d center" style="font-size:48px;line-height:52px;height:56px">28<span class="caret" style="height:44px;vertical-align:-6px"></span></div>
+ <div style="height:3px;background:var(--text);border-radius:2px;margin-top:6px"></div>
+</div>
+<div class="center sm muted" style="height:32px;margin-top:12px;flex:none"></div>
+<div class="grow" style="flex:.6"></div>
+<div style="flex:none"><div class="pad" ><div class="key ">1</div><div class="key ">2</div><div class="key ">3</div><div class="key ">4</div><div class="key ">5</div><div class="key ">6</div><div class="key ">7</div><div class="key ">8</div><div class="key ">9</div><div class="key "><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6H20A1 1 0 0 1 21 7V17A1 1 0 0 1 20 18H9L3 12Z"/><path d="M12.5 9.5L17 14.5M17 9.5L12.5 14.5"/></svg></div><div class="key ">0</div><div class="key enter">OK</div></div></div></section>
+<section class="frame dark" id="frame-13" data-name="Pi Challenge / Dark">
+<div class="hud"><div class="score"><span class="xs muted upper">Digits</span><span class="d x2">14</span></div><div class="grow"></div><div class="iconbtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4.5" height="16" rx="1.5"/><rect x="13.5" y="4" width="4.5" height="16" rx="1.5"/></svg></div></div>
+<div class="timer"><div class="track"><div class="fill " style="width:60%"></div></div><span class="tsec d" style="">18s</span></div>
+<div class="grow" style="flex:.7"></div>
+<div class="sm muted upper" style="letter-spacing:.08em;margin-bottom:8px;flex:none">pi so far</div>
+<div class="stream" style="flex:none">
+ <div><span class="muted">3.</span><span class="g">14159</span></div>
+ <div><span class="g">26535</span><span>8979</span><span class="caret"></span></div>
+</div>
+<div class="grow"></div>
+<div style="flex:none"><div class="pad" ><div class="key">1</div><div class="key">2</div><div class="key">3</div><div class="key">4</div><div class="key">5</div><div class="key">6</div><div class="key">7</div><div class="key">8</div><div class="key">9</div><div></div><div class="key">0</div><div></div></div></div></section>
+<section class="frame light" id="frame-14" data-name="Pi Challenge / Light">
+<div class="hud"><div class="score"><span class="xs muted upper">Digits</span><span class="d x2">14</span></div><div class="grow"></div><div class="iconbtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4.5" height="16" rx="1.5"/><rect x="13.5" y="4" width="4.5" height="16" rx="1.5"/></svg></div></div>
+<div class="timer"><div class="track"><div class="fill " style="width:60%"></div></div><span class="tsec d" style="">18s</span></div>
+<div class="grow" style="flex:.7"></div>
+<div class="sm muted upper" style="letter-spacing:.08em;margin-bottom:8px;flex:none">pi so far</div>
+<div class="stream" style="flex:none">
+ <div><span class="muted">3.</span><span class="g">14159</span></div>
+ <div><span class="g">26535</span><span>8979</span><span class="caret"></span></div>
+</div>
+<div class="grow"></div>
+<div style="flex:none"><div class="pad" ><div class="key">1</div><div class="key">2</div><div class="key">3</div><div class="key">4</div><div class="key">5</div><div class="key">6</div><div class="key">7</div><div class="key">8</div><div class="key">9</div><div></div><div class="key">0</div><div></div></div></div></section>
+<section class="frame dark" id="frame-15" data-name="Pi Challenge End / Dark">
+<div class="hud"><div class="score"><span class="xs muted upper">Digits</span><span class="d x2">14</span></div><div class="grow"></div><div class="iconbtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4.5" height="16" rx="1.5"/><rect x="13.5" y="4" width="4.5" height="16" rx="1.5"/></svg></div></div>
+<div class="timer"><div class="track"><div class="fill " style="width:60%"></div></div><span class="tsec d" style="">18s</span></div>
+<div class="grow" style="flex:.7"></div>
+<div class="sm muted upper" style="letter-spacing:.08em;margin-bottom:8px;flex:none">pi so far</div>
+<div class="stream" style="flex:none">
+ <div><span class="muted">3.</span><span class="g">14159</span></div>
+ <div><span class="g">26535</span><span>8979</span><span style="color:var(--danger);margin-left:2px">5</span></div>
+</div>
+<div class="row" style="gap:10px;margin-top:16px;color:var(--danger);flex:none"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6L18 18M18 6L6 18"/></svg><span class="lg">You typed 5, it was 3</span></div>
+<div class="base muted" style="margin-top:8px;flex:none">Pi is irrational. So is that digit.</div>
+<div class="grow"></div>
+<div class="dim" style="flex:none"><div class="pad" ><div class="key">1</div><div class="key">2</div><div class="key">3</div><div class="key">4</div><div class="key">5</div><div class="key">6</div><div class="key">7</div><div class="key">8</div><div class="key">9</div><div></div><div class="key">0</div><div></div></div></div></section>
+<section class="frame light" id="frame-16" data-name="Pi Challenge End / Light">
+<div class="hud"><div class="score"><span class="xs muted upper">Digits</span><span class="d x2">14</span></div><div class="grow"></div><div class="iconbtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4.5" height="16" rx="1.5"/><rect x="13.5" y="4" width="4.5" height="16" rx="1.5"/></svg></div></div>
+<div class="timer"><div class="track"><div class="fill " style="width:60%"></div></div><span class="tsec d" style="">18s</span></div>
+<div class="grow" style="flex:.7"></div>
+<div class="sm muted upper" style="letter-spacing:.08em;margin-bottom:8px;flex:none">pi so far</div>
+<div class="stream" style="flex:none">
+ <div><span class="muted">3.</span><span class="g">14159</span></div>
+ <div><span class="g">26535</span><span>8979</span><span style="color:var(--danger);margin-left:2px">5</span></div>
+</div>
+<div class="row" style="gap:10px;margin-top:16px;color:var(--danger);flex:none"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6L18 18M18 6L6 18"/></svg><span class="lg">You typed 5, it was 3</span></div>
+<div class="base muted" style="margin-top:8px;flex:none">Pi is irrational. So is that digit.</div>
+<div class="grow"></div>
+<div class="dim" style="flex:none"><div class="pad" ><div class="key">1</div><div class="key">2</div><div class="key">3</div><div class="key">4</div><div class="key">5</div><div class="key">6</div><div class="key">7</div><div class="key">8</div><div class="key">9</div><div></div><div class="key">0</div><div></div></div></div></section>
+<section class="frame dark" id="frame-17" data-name="Game Over / Dark">
+<div class="grow"></div>
+<div class="center xs muted upper" style="letter-spacing:.08em;margin-bottom:12px;flex:none">Speed Math</div>
+<div class="panel" style="padding:24px;display:flex;flex-direction:column;align-items:center;flex:none">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="80" height="80"><g transform="translate(0 4.5) scale(1 0.92)"><path d="M32 8C26 4 16 6 13 14C7 15 4 22 6 28C2 32 3 41 9 44C10 51 18 56 25 53C28 57 36 57 39 53C46 56 54 51 55 44C61 41 62 32 58 28C60 22 57 15 51 14C48 6 38 4 32 8Z" fill="var(--rot3)" stroke="var(--text)" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 9C30 20 34 30 32 40C31 46 33 50 32 54" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="21" r="4.5" fill="#3B2A18"/><circle cx="48" cy="22" r="4.5" fill="#3B2A18"/><circle cx="19" cy="44" r="5" fill="#3B2A18"/><circle cx="42" cy="45" r="3.5" fill="#3B2A18"/><path d="M17 28L24 35M24 28L17 35M40 28L47 35M47 28L40 35" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M25 47Q32 42 39 47" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round"/><path d="M32 55V60" stroke="#6FA33A" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="32" cy="61.5" r="2" fill="#6FA33A"/></g></svg>
+ <div class="d xl center" style="margin-top:12px;height:56px;width:260px">Your brain is getting a bit smelly.</div>
+ <div class="d hero ink" style="margin-top:8px">840</div>
+ <div style="display:flex;flex-direction:column;gap:8px;width:100%;margin-top:16px"><div class="stat"><span class="base muted">Best streak</span><span class="d xl">6</span></div><div class="stat"><span class="base muted">Personal best</span><span class="d xl">1,240</span></div></div>
+ <div class="btn primary" style="margin-top:24px">One more try</div>
+ <div class="btn secondary" style="margin-top:12px">Back to menu</div>
+</div>
+<div class="grow" style="flex:.5"></div></section>
+<section class="frame light" id="frame-18" data-name="Game Over / Light">
+<div class="grow"></div>
+<div class="center xs muted upper" style="letter-spacing:.08em;margin-bottom:12px;flex:none">Speed Math</div>
+<div class="panel" style="padding:24px;display:flex;flex-direction:column;align-items:center;flex:none">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="80" height="80"><g transform="translate(0 4.5) scale(1 0.92)"><path d="M32 8C26 4 16 6 13 14C7 15 4 22 6 28C2 32 3 41 9 44C10 51 18 56 25 53C28 57 36 57 39 53C46 56 54 51 55 44C61 41 62 32 58 28C60 22 57 15 51 14C48 6 38 4 32 8Z" fill="var(--rot3)" stroke="var(--text)" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 9C30 20 34 30 32 40C31 46 33 50 32 54" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="21" r="4.5" fill="#3B2A18"/><circle cx="48" cy="22" r="4.5" fill="#3B2A18"/><circle cx="19" cy="44" r="5" fill="#3B2A18"/><circle cx="42" cy="45" r="3.5" fill="#3B2A18"/><path d="M17 28L24 35M24 28L17 35M40 28L47 35M47 28L40 35" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M25 47Q32 42 39 47" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round"/><path d="M32 55V60" stroke="#6FA33A" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="32" cy="61.5" r="2" fill="#6FA33A"/></g></svg>
+ <div class="d xl center" style="margin-top:12px;height:56px;width:260px">Your brain is getting a bit smelly.</div>
+ <div class="d hero ink" style="margin-top:8px">840</div>
+ <div style="display:flex;flex-direction:column;gap:8px;width:100%;margin-top:16px"><div class="stat"><span class="base muted">Best streak</span><span class="d xl">6</span></div><div class="stat"><span class="base muted">Personal best</span><span class="d xl">1,240</span></div></div>
+ <div class="btn primary" style="margin-top:24px">One more try</div>
+ <div class="btn secondary" style="margin-top:12px">Back to menu</div>
+</div>
+<div class="grow" style="flex:.5"></div></section>
+<section class="frame dark" id="frame-19" data-name="Game Over New Best / Dark">
+<div class="grow"></div>
+<div class="center xs muted upper" style="letter-spacing:.08em;margin-bottom:12px;flex:none">Speed Math</div>
+<div class="panel" style="padding:24px;display:flex;flex-direction:column;align-items:center;flex:none">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="80" height="80"><g transform="translate(0 4.5) scale(1 0.92)"><path d="M32 8C26 4 16 6 13 14C7 15 4 22 6 28C2 32 3 41 9 44C10 51 18 56 25 53C28 57 36 57 39 53C46 56 54 51 55 44C61 41 62 32 58 28C60 22 57 15 51 14C48 6 38 4 32 8Z" fill="var(--rot3)" stroke="var(--text)" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 9C30 20 34 30 32 40C31 46 33 50 32 54" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="21" r="4.5" fill="#3B2A18"/><circle cx="48" cy="22" r="4.5" fill="#3B2A18"/><circle cx="19" cy="44" r="5" fill="#3B2A18"/><circle cx="42" cy="45" r="3.5" fill="#3B2A18"/><path d="M17 28L24 35M24 28L17 35M40 28L47 35M47 28L40 35" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M25 47Q32 42 39 47" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round"/><path d="M32 55V60" stroke="#6FA33A" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="32" cy="61.5" r="2" fill="#6FA33A"/></g></svg>
+ <div class="d xl center" style="margin-top:12px;height:56px;width:260px">New personal best. Brain: 1, scroll: 0.</div>
+ <div class="d hero ink" style="margin-top:8px">1,380</div>
+ <div style="margin-top:8px"><span class="badge">NEW BEST</span></div>
+ <div style="display:flex;flex-direction:column;gap:8px;width:100%;margin-top:16px"><div class="stat"><span class="base muted">Best streak</span><span class="d xl">9</span></div><div class="stat"><span class="base muted">Previous best</span><span class="d xl">1,240</span></div></div>
+ <div class="btn primary" style="margin-top:24px">One more try</div>
+ <div class="btn secondary" style="margin-top:12px">Back to menu</div>
+</div>
+<div class="grow" style="flex:.5"></div></section>
+<section class="frame light" id="frame-20" data-name="Game Over New Best / Light">
+<div class="grow"></div>
+<div class="center xs muted upper" style="letter-spacing:.08em;margin-bottom:12px;flex:none">Speed Math</div>
+<div class="panel" style="padding:24px;display:flex;flex-direction:column;align-items:center;flex:none">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="80" height="80"><g transform="translate(0 4.5) scale(1 0.92)"><path d="M32 8C26 4 16 6 13 14C7 15 4 22 6 28C2 32 3 41 9 44C10 51 18 56 25 53C28 57 36 57 39 53C46 56 54 51 55 44C61 41 62 32 58 28C60 22 57 15 51 14C48 6 38 4 32 8Z" fill="var(--rot3)" stroke="var(--text)" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 9C30 20 34 30 32 40C31 46 33 50 32 54" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="21" r="4.5" fill="#3B2A18"/><circle cx="48" cy="22" r="4.5" fill="#3B2A18"/><circle cx="19" cy="44" r="5" fill="#3B2A18"/><circle cx="42" cy="45" r="3.5" fill="#3B2A18"/><path d="M17 28L24 35M24 28L17 35M40 28L47 35M47 28L40 35" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M25 47Q32 42 39 47" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round"/><path d="M32 55V60" stroke="#6FA33A" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="32" cy="61.5" r="2" fill="#6FA33A"/></g></svg>
+ <div class="d xl center" style="margin-top:12px;height:56px;width:260px">New personal best. Brain: 1, scroll: 0.</div>
+ <div class="d hero ink" style="margin-top:8px">1,380</div>
+ <div style="margin-top:8px"><span class="badge">NEW BEST</span></div>
+ <div style="display:flex;flex-direction:column;gap:8px;width:100%;margin-top:16px"><div class="stat"><span class="base muted">Best streak</span><span class="d xl">9</span></div><div class="stat"><span class="base muted">Previous best</span><span class="d xl">1,240</span></div></div>
+ <div class="btn primary" style="margin-top:24px">One more try</div>
+ <div class="btn secondary" style="margin-top:12px">Back to menu</div>
+</div>
+<div class="grow" style="flex:.5"></div></section>
+<section class="frame dark" id="frame-21" data-name="Settings / Dark">
+<div class="row" style="height:44px;gap:12px;flex:none"><div class="iconbtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5L8 12L15 19"/></svg></div><div class="d xl">Settings</div></div>
+<div style="height:16px;flex:none"></div>
+<div class="srow" ><span class="base">Sound</span><div class="sw on"><i><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5L10 17.5L19 7"/></svg></i></div></div>
+<div class="srow" ><span class="base">Vibration</span><div class="sw "><i><b></b></i></div></div>
+<div style="padding:16px 0;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:12px;flex:none"><span class="base">Theme</span><div class="seg"><div class="on">System</div><div class="">Light</div><div class="">Dark</div></div></div>
+<div class="srow" ><span class="base"><span style="color:var(--danger)">Reset data</span></span><span class="muted"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5L16 12L9 19"/></svg></span></div>
+<div class="srow" style="border-bottom:0"><span class="base">Credits</span><span class="muted"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5L16 12L9 19"/></svg></span></div>
+<div class="grow"></div>
+<div class="sm muted" style="text-align:right;flex:none">v1.0.0</div></section>
+<section class="frame light" id="frame-22" data-name="Settings / Light">
+<div class="row" style="height:44px;gap:12px;flex:none"><div class="iconbtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5L8 12L15 19"/></svg></div><div class="d xl">Settings</div></div>
+<div style="height:16px;flex:none"></div>
+<div class="srow" ><span class="base">Sound</span><div class="sw on"><i><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5L10 17.5L19 7"/></svg></i></div></div>
+<div class="srow" ><span class="base">Vibration</span><div class="sw "><i><b></b></i></div></div>
+<div style="padding:16px 0;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:12px;flex:none"><span class="base">Theme</span><div class="seg"><div class="on">System</div><div class="">Light</div><div class="">Dark</div></div></div>
+<div class="srow" ><span class="base"><span style="color:var(--danger)">Reset data</span></span><span class="muted"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5L16 12L9 19"/></svg></span></div>
+<div class="srow" style="border-bottom:0"><span class="base">Credits</span><span class="muted"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5L16 12L9 19"/></svg></span></div>
+<div class="grow"></div>
+<div class="sm muted" style="text-align:right;flex:none">v1.0.0</div></section>
+<section class="frame dark" id="frame-23" data-name="Credits / Dark">
+<div class="row" style="height:44px;gap:12px;flex:none"><div class="iconbtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5L8 12L15 19"/></svg></div><div class="d xl">About</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:32px;flex:none">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="96" height="96"><path d="M32 8C26 4 16 6 13 14C7 15 4 22 6 28C2 32 3 41 9 44C10 51 18 56 25 53C28 57 36 57 39 53C46 56 54 51 55 44C61 41 62 32 58 28C60 22 57 15 51 14C48 6 38 4 32 8Z" fill="var(--rot0)" stroke="var(--text)" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 9C30 20 34 30 32 40C31 46 33 50 32 54" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24C18 22 20 26 24 24M12 36C16 34 19 38 23 36M50 24C46 22 44 26 40 24M52 36C48 34 45 38 41 36" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M57 2L58.6 6.4L63 8L58.6 9.6L57 14L55.4 9.6L51 8L55.4 6.4Z" fill="var(--accent)" stroke="var(--text)" stroke-width="1.2" stroke-linejoin="round"/></svg>
+ <div class="d x2 center nw" style="margin-top:8px">Do Not Let It Rot</div>
+ <div class="base muted center">Scroll less. Think more.</div>
+</div>
+<div style="margin-top:32px;display:flex;flex-direction:column;gap:8px;flex:none">
+ <div class="lg">Concept by [friend name]</div>
+ <div class="base muted">Built by Najeeb</div>
+ <div class="base muted" style="margin-top:8px">A quick brain-training game for people who scroll too much. Three short challenges. Memory, math and pi.</div>
+</div>
+<div class="row" style="gap:8px;margin-top:20px;flex:none"><span class="pill">GitHub</span><span class="pill">MIT license</span></div>
+<div class="grow"></div>
+<div class="panel" style="padding:16px;flex:none"><div class="xs muted upper" style="letter-spacing:.08em;margin-bottom:4px">Privacy</div><div class="base">Anonymous page analytics only (Vercel). No accounts, no personal data.</div></div></section>
+<section class="frame light" id="frame-24" data-name="Credits / Light">
+<div class="row" style="height:44px;gap:12px;flex:none"><div class="iconbtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5L8 12L15 19"/></svg></div><div class="d xl">About</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:32px;flex:none">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="96" height="96"><path d="M32 8C26 4 16 6 13 14C7 15 4 22 6 28C2 32 3 41 9 44C10 51 18 56 25 53C28 57 36 57 39 53C46 56 54 51 55 44C61 41 62 32 58 28C60 22 57 15 51 14C48 6 38 4 32 8Z" fill="var(--rot0)" stroke="var(--text)" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 9C30 20 34 30 32 40C31 46 33 50 32 54" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24C18 22 20 26 24 24M12 36C16 34 19 38 23 36M50 24C46 22 44 26 40 24M52 36C48 34 45 38 41 36" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M57 2L58.6 6.4L63 8L58.6 9.6L57 14L55.4 9.6L51 8L55.4 6.4Z" fill="var(--accent)" stroke="var(--text)" stroke-width="1.2" stroke-linejoin="round"/></svg>
+ <div class="d x2 center nw" style="margin-top:8px">Do Not Let It Rot</div>
+ <div class="base muted center">Scroll less. Think more.</div>
+</div>
+<div style="margin-top:32px;display:flex;flex-direction:column;gap:8px;flex:none">
+ <div class="lg">Concept by [friend name]</div>
+ <div class="base muted">Built by Najeeb</div>
+ <div class="base muted" style="margin-top:8px">A quick brain-training game for people who scroll too much. Three short challenges. Memory, math and pi.</div>
+</div>
+<div class="row" style="gap:8px;margin-top:20px;flex:none"><span class="pill">GitHub</span><span class="pill">MIT license</span></div>
+<div class="grow"></div>
+<div class="panel" style="padding:16px;flex:none"><div class="xs muted upper" style="letter-spacing:.08em;margin-bottom:4px">Privacy</div><div class="base">Anonymous page analytics only (Vercel). No accounts, no personal data.</div></div></section>
+<section class="frame dark" id="frame-25"><div class="d xl">DNLIR mockups</div><div class="sm muted" style="margin:4px 0 20px">All pages 390 x 844. Dark then Light for each screen. Frame name pattern: Screen / Theme.</div><div class="row" style="height:28px;border-bottom:1px solid var(--border)"><span class="sm grow nw">Home</span><span class="sm muted" style="width:70px;text-align:right">p1 Dark</span><span class="sm muted" style="width:76px;text-align:right">p2 Light</span></div><div class="row" style="height:28px;border-bottom:1px solid var(--border)"><span class="sm grow nw">Countdown</span><span class="sm muted" style="width:70px;text-align:right">p3 Dark</span><span class="sm muted" style="width:76px;text-align:right">p4 Light</span></div><div class="row" style="height:28px;border-bottom:1px solid var(--border)"><span class="sm grow nw">Visual Memory Show</span><span class="sm muted" style="width:70px;text-align:right">p5 Dark</span><span class="sm muted" style="width:76px;text-align:right">p6 Light</span></div><div class="row" style="height:28px;border-bottom:1px solid var(--border)"><span class="sm grow nw">Visual Memory Recall</span><span class="sm muted" style="width:70px;text-align:right">p7 Dark</span><span class="sm muted" style="width:76px;text-align:right">p8 Light</span></div><div class="row" style="height:28px;border-bottom:1px solid var(--border)"><span class="sm grow nw">Visual Memory Feedback</span><span class="sm muted" style="width:70px;text-align:right">p9 Dark</span><span class="sm muted" style="width:76px;text-align:right">p10 Light</span></div><div class="row" style="height:28px;border-bottom:1px solid var(--border)"><span class="sm grow nw">Speed Math</span><span class="sm muted" style="width:70px;text-align:right">p11 Dark</span><span class="sm muted" style="width:76px;text-align:right">p12 Light</span></div><div class="row" style="height:28px;border-bottom:1px solid var(--border)"><span class="sm grow nw">Pi Challenge</span><span class="sm muted" style="width:70px;text-align:right">p13 Dark</span><span class="sm muted" style="width:76px;text-align:right">p14 Light</span></div><div class="row" style="height:28px;border-bottom:1px solid var(--border)"><span class="sm grow nw">Pi Challenge End</span><span class="sm muted" style="width:70px;text-align:right">p15 Dark</span><span class="sm muted" style="width:76px;text-align:right">p16 Light</span></div><div class="row" style="height:28px;border-bottom:1px solid var(--border)"><span class="sm grow nw">Game Over</span><span class="sm muted" style="width:70px;text-align:right">p17 Dark</span><span class="sm muted" style="width:76px;text-align:right">p18 Light</span></div><div class="row" style="height:28px;border-bottom:1px solid var(--border)"><span class="sm grow nw">Game Over New Best</span><span class="sm muted" style="width:70px;text-align:right">p19 Dark</span><span class="sm muted" style="width:76px;text-align:right">p20 Light</span></div><div class="row" style="height:28px;border-bottom:1px solid var(--border)"><span class="sm grow nw">Settings</span><span class="sm muted" style="width:70px;text-align:right">p21 Dark</span><span class="sm muted" style="width:76px;text-align:right">p22 Light</span></div><div class="row" style="height:28px;border-bottom:1px solid var(--border)"><span class="sm grow nw">Credits</span><span class="sm muted" style="width:70px;text-align:right">p23 Dark</span><span class="sm muted" style="width:76px;text-align:right">p24 Light</span></div><div class="sm muted" style="margin-top:16px">Page 25: this index.</div></section></body></html>

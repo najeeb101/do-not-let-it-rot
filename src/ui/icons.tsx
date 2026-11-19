@@ -58,3 +58,34 @@ export const PiIcon = ({ size = 24, className }: P) => (
     <path d="M4 7h16M8 7v12M16 7v9a3 3 0 0 0 3 3" />
   </svg>
 );
+
+export const CheckIcon = ({ size = 24, className }: P) => (
+  <svg {...base(size)} strokeWidth={3} className={className}>
+    <path d="m5 12.5 4.5 4.5L19 7" />
+  </svg>
+);
+
+export const XIcon = ({ size = 24, className }: P) => (
+  <svg {...base(size)} strokeWidth={3} className={className}>
+    <path d="m6 6 12 12M18 6 6 18" />
+  </svg>
+);
+
+export const EyeIcon = ({ size = 24, className }: P) => (
+  <svg {...base(size)} className={className}>
+    <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+);
+
+export const ChevronIcon = ({ size = 20, className }: P) => (
+  <svg {...base(size)} className={className}>
+    <path d="m9 5 7 7-7 7" />
+  </svg>
+);
+
+export const BackIcon = ({ size = 22, className }: P) => (
+  <svg {...base(size)} className={className}>
+    <path d="m15 5-7 7 7 7" />
+  </svg>
+);

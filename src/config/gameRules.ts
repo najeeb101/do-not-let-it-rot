@@ -93,6 +93,11 @@ export const gameRules = {
   piMinDigits: 1000,
   piShownNextDigits: 10,
   piTimerStartsOnFirstDigit: true,
+  /** How long the stream stays visible after the run ends, before Game Over. */
+  piWrongHoldMs: 1500,
+  piTimeUpHoldMs: 1000,
+  /** Digits are grouped in blocks of this size in the ticker. */
+  piGroupSize: 5,
 
   pauseOnHidden: true,
   quitCountsAsGameOver: true,

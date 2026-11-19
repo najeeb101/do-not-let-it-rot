@@ -7,12 +7,12 @@ import { RotMeter } from '../ui/RotMeter';
 
 type Props = {
   save: SaveV1;
-  onPlay: (mode: 'speedMath') => void;
+  onPlay: (mode: ModeId) => void;
   onTheme: () => void;
 };
 
 const cards: { id: ModeId; icon: ReactNode; playable: boolean }[] = [
-  { id: 'visualMemory', icon: <GridIcon />, playable: false },
+  { id: 'visualMemory', icon: <GridIcon />, playable: true },
   { id: 'speedMath', icon: <MathIcon />, playable: true },
   { id: 'piChallenge', icon: <PiIcon />, playable: false },
 ];
@@ -49,7 +49,7 @@ export function Home({ save, onPlay, onTheme }: Props) {
               key={c.id}
               type="button"
               disabled={!c.playable}
-              onClick={() => c.playable && onPlay('speedMath')}
+              onClick={() => c.playable && onPlay(c.id)}
               className={`flex min-h-[88px] items-center gap-3 rounded-[20px] border-2 bg-surface p-4 text-left ${
                 c.playable ? 'border-border active:scale-[0.98]' : 'border-border opacity-60'
               }`}

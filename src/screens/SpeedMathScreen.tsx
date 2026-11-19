@@ -1,51 +1,43 @@
-import { useEffect, useRef } from 'react';
 import { strings } from '../content/strings';
 import { gameRules } from '../config/gameRules';
 import { countdownNumeral } from '../engine/session';
 import { rotStage } from '../engine/rot';
-import { useSpeedMath } from '../hooks/useSpeedMath';
+import { useRunner } from '../hooks/useRunner';
+import type { FinishedGame } from '../hooks/useRunner';
+import { fxForEvents } from '../lib/fx';
 import { opGlyph } from '../modes/speedMath/generator';
-import { currentMultiplier } from '../modes/speedMath/reducer';
-import { Button } from '../ui/Button';
+import { currentMultiplier, initialState, reducer } from '../modes/speedMath/reducer';
+import type { SmAction, SmState } from '../modes/speedMath/reducer';
 import { Hud } from '../ui/Hud';
 import { NumberPad } from '../ui/NumberPad';
+import { PauseOverlay } from '../ui/PauseOverlay';
 import { TimerBar } from '../ui/TimerBar';
-
-export type FinishedGame = { score: number; bestStreak: number };
 
 type Props = {
   onFinish: (game: FinishedGame) => void;
   onQuit: () => void;
 };
 
+const keyAction = (e: KeyboardEvent, now: number): SmAction | null => {
+  if (/^[0-9]$/.test(e.key)) return { type: 'digit', digit: e.key, now };
+  if (e.key === 'Backspace') return { type: 'backspace', now };
+  if (e.key === 'Enter') return { type: 'submit', now };
+  return null;
+};
+
+const finished = (s: SmState): FinishedGame => ({ score: s.score, bestStreak: s.bestStreak });
+
 export function SpeedMathScreen({ onFinish, onQuit }: Props) {
-  const { state: s, start, digit, backspace, submit, pause, resume } = useSpeedMath();
-  const started = useRef(false);
-
-  useEffect(() => {
-    if (started.current) return;
-    started.current = true;
-    start();
-  }, [start]);
-
-  const finished = useRef(false);
-  useEffect(() => {
-    if (s.phase === 'gameover' && !finished.current) {
-      finished.current = true;
-      onFinish({ score: s.score, bestStreak: s.bestStreak });
-    }
-  }, [s.phase, s.score, s.bestStreak, onFinish]);
-
-  const quit = () => {
-    if (s.phase === 'countdown' || s.phase === 'idle') {
-      onQuit();
-      return;
-    }
-    if (!finished.current) {
-      finished.current = true;
-      onFinish({ score: s.score, bestStreak: s.bestStreak });
-    }
-  };
+  const { state: s, send, pause, resume, quit } = useRunner<SmState, SmAction>(reducer, initialState, {
+    keyAction,
+    finished,
+    onFinish,
+    onQuit,
+    onEvents: fxForEvents,
+  });
+  const digit = (d: string) => send((now) => ({ type: 'digit', digit: d, now }));
+  const backspace = () => send((now) => ({ type: 'backspace', now }));
+  const submit = () => send((now) => ({ type: 'submit', now }));
 
   const counting = s.phase === 'countdown';
   const clockNow = s.paused ? s.pausedAt : s.now;
@@ -109,15 +101,7 @@ export function SpeedMathScreen({ onFinish, onQuit }: Props) {
         <NumberPad onDigit={digit} onBackspace={backspace} onOk={submit} disabled={counting || s.paused} />
       </div>
 
-      {s.paused && (
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-overlay px-8" role="dialog" aria-label={strings.pause.title}>
-          <h2 className="num mb-4 text-4xl text-white">{strings.pause.title}</h2>
-          <Button onClick={resume}>{strings.pause.resume}</Button>
-          <Button variant="secondary" onClick={quit} className="bg-bg">
-            {strings.pause.quit}
-          </Button>
-        </div>
-      )}
+      {s.paused && <PauseOverlay onResume={resume} onQuit={quit} />}
     </main>
   );
 }

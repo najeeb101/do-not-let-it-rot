@@ -1,9 +1,11 @@
 import { strings } from '../content/strings';
 import type { GameOverTier } from '../engine/session';
+import type { ModeId } from '../engine/types';
 import { Button } from '../ui/Button';
 import { RotMeter } from '../ui/RotMeter';
 
 export type GameOverData = {
+  mode: ModeId;
   score: number;
   bestStreak: number;
   previousBest: number;
@@ -17,7 +19,7 @@ export function GameOver({ data, onRetry, onMenu }: Props) {
   const line = data.newBest ? strings.gameOver.newBestLine : strings.gameOver[data.tier];
   return (
     <main className="screen justify-center gap-6">
-      <p className="num text-center text-sm uppercase tracking-widest text-muted">{strings.modes.speedMath.name}</p>
+      <p className="num text-center text-sm uppercase tracking-widest text-muted">{strings.modes[data.mode].name}</p>
 
       <section className="flex flex-col items-center gap-3 rounded-[20px] border-2 border-border bg-surface p-6 text-center">
         <RotMeter stage={3} size={80} label="Rotten brain" />

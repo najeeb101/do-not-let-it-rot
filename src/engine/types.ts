@@ -5,6 +5,7 @@ export type Phase = 'idle' | 'countdown' | 'show' | 'input' | 'feedback' | 'next
 /** Side-effect descriptors the screen can react to (sound, haptics, analytics). */
 export type GameEvent =
   | { type: 'correct'; points: number }
+  | { type: 'tap' }
   | { type: 'wrong' }
   | { type: 'timeout' }
   | { type: 'lostLife'; lives: number }
